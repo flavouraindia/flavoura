@@ -1,0 +1,20 @@
+{
+  "name": "Flavoura",
+  "short_name": "Flavoura",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF9",
+  "theme_color": "#B8252A",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1bQzes7jWZVegwderY9BTzVw_b3XUmxdi",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/d/1bQzes7jWZVegwderY9BTzVw_b3XUmxdi",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

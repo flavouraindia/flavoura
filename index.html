@@ -14,7 +14,7 @@
   <meta property="og:title" content="Flavoura | Instant Cooking Premixes">
   <meta property="og:description" content="Restaurant-style meals in 30 minutes or less. No chopping, no peeling, zero prep.">
   <meta property="og:url" content="https://www.myflavoura.in/">
-  <meta property="og:image" content="https://www.myflavoura.in/assets/angaara-hero.webp">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/d/1TNHCex2SNq5V95PPURlBXIl_xxZZWWW-">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicon (gold medallion with maroon F). Replace with /favicon.png when you have the final file. -->
@@ -23,7 +23,1063 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+/* ==========================================================================
+   FLAVOURA — style.css
+   Warm cream · maroon · gold. Mobile-first, Flexbox/Grid, CSS variables.
+   Sections:
+     1. Tokens & base          7. Catalogue & product cards
+     2. Buttons & pills        8. Sections (CTA, how, reviews, FAQ, closing)
+     3. Header                 9. Footer & cart bar
+     4. Story highlights      10. Modals & checkout form
+     5. Hero                  11. Story viewer
+     6. Trust bar             12. Legal pages & utilities
+   ========================================================================== */
+
+/* ---------- 1. Tokens & base ---------- */
+:root {
+  --cream: #FCF7EB;          /* matches the product-shot background */
+  --cream-2: #F5ECD8;
+  --paper: #FFFDF8;
+  --line: #E8DCC2;
+  --maroon: #8B1F20;         /* logo "F" */
+  --maroon-dark: #6A1517;
+  --red: #B8252A;
+  --gold: #D9A22F;
+  --gold-light: #F5DC8E;
+  --gold-deep: #B07A14;
+  --ink: #241B19;
+  --muted: #6E635D;
+  --wa: #138A44;
+  --wa-dark: #0E6F36;
+  --yt: #D4161B;
+
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  --shadow-soft: 0 10px 30px -12px rgba(80, 40, 20, .22);
+  --shadow-lift: 0 18px 40px -16px rgba(80, 40, 20, .35);
+
+  --header-h: 68px;
+  --maxw: 1200px;
+  --pad-x: clamp(1rem, 4vw, 2rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.has-cart { padding-bottom: 88px; }
+body.layer-open { overflow: hidden; }
+
+h1, h2, h3, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+
+:focus-visible {
+  outline: 3px solid var(--gold-deep);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 5000;
+  background: var(--maroon);
+  color: #fff;
+  padding: .6rem 1rem;
+  border-radius: var(--r-sm);
+}
+.skip-link:focus { top: .75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-frame, .hero-chip { animation: none !important; }
+  .btn, .highlight-ring, .product-card, .cart-bar, .modal, .modal-card { transition: none !important; }
+}
+
+/* ---------- 2. Buttons & pills ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 46px;
+  padding: .7rem 1.4rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: .95rem;
+  line-height: 1.1;
+  text-align: center;
+  transition: transform .15s ease, background-color .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(.98); }
+.btn[disabled] { opacity: .6; cursor: not-allowed; transform: none; }
+
+.btn-sm { min-height: 40px; padding: .5rem 1rem; font-size: .88rem; }
+.btn-block { width: 100%; }
+
+.btn-primary { background: var(--maroon); color: #fff; }
+.btn-primary:hover { background: var(--maroon-dark); box-shadow: var(--shadow-soft); }
+
+.btn-ghost { background: transparent; color: var(--maroon); border-color: var(--maroon); }
+.btn-ghost:hover { background: rgba(139, 31, 32, .07); }
+
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: #E4B13F; }
+
+.btn-whatsapp { background: var(--wa); color: #fff; }
+.btn-whatsapp:hover { background: var(--wa-dark); box-shadow: var(--shadow-soft); }
+
+.btn-youtube { background: var(--yt); color: #fff; }
+.btn-youtube:hover { background: #B70F14; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: .32rem .85rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 253, 248, .75);
+  border: 1px solid var(--line);
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--ink);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.pill-gold { background: rgba(217, 162, 47, .16); border-color: rgba(176, 122, 20, .35); color: #6B4709; }
+.pill-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* ---------- 3. Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(252, 247, 235, .82);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--line);
+  padding-top: env(safe-area-inset-top, 0);
+}
+.header-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  height: var(--header-h);
+  padding: 0 var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand { display: inline-flex; align-items: center; gap: .65rem; }
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--maroon);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  box-shadow: inset 0 0 0 3px var(--gold), inset 0 0 0 5px var(--maroon), 0 4px 10px -4px rgba(139, 31, 32, .5);
+  flex-shrink: 0;
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: .04em;
+  color: var(--maroon);
+}
+.brand-tag { font-size: .68rem; font-style: italic; color: var(--muted); display: none; }
+.brand-light .brand-name { color: #fff; }
+
+.main-nav { display: none; gap: 1.8rem; font-weight: 500; font-size: .95rem; }
+.main-nav a { padding: .35rem 0; border-bottom: 2px solid transparent; transition: border-color .2s, color .2s; }
+.main-nav a:hover { color: var(--maroon); border-color: var(--gold); }
+
+.header-actions { display: flex; align-items: center; gap: .6rem; }
+
+.cart-button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--maroon);
+  transition: background-color .2s, transform .15s;
+}
+.cart-button:hover { background: var(--cream-2); }
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--red);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 560px) { .brand-tag { display: block; } }
+@media (min-width: 900px) { .main-nav { display: flex; } }
+@media (max-width: 420px) { .btn-whatsapp.btn-sm span { display: none; } .btn-whatsapp.btn-sm { width: 44px; padding: 0; } }
+
+/* ---------- 4. Story highlights ---------- */
+.highlights {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 1.1rem 0 .4rem;
+}
+.highlights-scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: .3rem var(--pad-x) .5rem;
+  -webkit-overflow-scrolling: touch;
+}
+.highlights-scroll::-webkit-scrollbar { display: none; }
+.highlight-rail {
+  display: flex;
+  gap: clamp(.9rem, 2.4vw, 1.6rem);
+  justify-content: safe center;
+  width: max-content;
+  min-width: 100%;
+}
+
+.highlight {
+  flex: 0 0 auto;
+  width: 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .45rem;
+  background: none;
+  border: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.highlight-ring {
+  width: 74px;
+  height: 74px;
+  padding: 3px;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, var(--gold-light), var(--gold), var(--gold-deep), var(--red), var(--gold-light));
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.highlight:hover .highlight-ring { transform: scale(1.06); box-shadow: 0 8px 18px -8px rgba(139, 31, 32, .55); }
+.highlight:active .highlight-ring { transform: scale(.96); }
+.highlight.is-viewed .highlight-ring { background: var(--line); }
+
+.highlight-icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--cream);
+  background: var(--cream);
+  overflow: hidden;
+}
+.highlight-icon img { width: 100%; height: 100%; object-fit: cover; }
+.highlight-icon--svg {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 60%, var(--gold-deep));
+  color: var(--maroon);
+}
+.highlight-icon--svg svg { width: 52%; height: 52%; }
+.icon-letter { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; line-height: 1; }
+
+.highlight-label {
+  font-size: .74rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--ink);
+  max-width: 82px;
+}
+
+/* ---------- 5. Hero ---------- */
+.hero {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: .6rem var(--pad-x) 2.6rem;
+  display: grid;
+  gap: 1.8rem;
+  justify-items: center;
+  text-align: center;
+}
+.hero-banner {
+  width: 100%;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  background: var(--cream-2);
+  line-height: 0;
+}
+.hero-banner:not(.is-loaded) { min-height: clamp(160px, 30vw, 340px); }
+.hero-banner.is-failed { display: none; }
+.hero-banner img { width: 100%; height: auto; display: block; }
+
+.hero-copy { display: flex; flex-direction: column; align-items: center; gap: 1.05rem; max-width: 760px; }
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5.6vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  color: var(--maroon);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.hero-lead { color: var(--muted); font-size: 1.05rem; max-width: 58ch; }
+.hero-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+.hero .pill-row { justify-content: center; }
+
+/* ---------- 6. Trust bar ---------- */
+.trust {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.6rem var(--pad-x);
+}
+.trust-grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .8rem;
+}
+.trust-grid li {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 1rem;
+}
+.trust-grid h2 { font-family: var(--font-body); font-size: .95rem; font-weight: 600; margin-bottom: .25rem; color: var(--maroon); }
+.trust-grid p { font-size: .83rem; color: var(--muted); line-height: 1.4; }
+@media (min-width: 800px) { .trust-grid { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+
+/* ---------- Generic section ---------- */
+.section { max-width: var(--maxw); margin: 0 auto; padding: 3rem var(--pad-x); }
+.section-head { text-align: center; margin-bottom: 1.6rem; }
+.section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  color: var(--ink);
+  margin-bottom: .35rem;
+}
+.section-head p { color: var(--muted); max-width: 56ch; margin: 0 auto; }
+
+/* ---------- 7. Catalogue & product cards ---------- */
+.filters { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-bottom: 1.8rem; }
+.filter {
+  padding: .55rem 1.2rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: .9rem;
+  font-weight: 500;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.filter:hover { border-color: var(--gold-deep); }
+.filter[aria-pressed="true"] { background: var(--maroon); border-color: var(--maroon); color: #fff; }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+  gap: 1.3rem;
+}
+.noscript-note { grid-column: 1 / -1; text-align: center; padding: 1rem; }
+.noscript-note a { text-decoration: underline; color: var(--maroon); }
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 16px -10px rgba(80, 40, 20, .25);
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.product-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+
+/* Product photos are 1:1 squares: the box is a true square and the image fills it without stretching */
+.product-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  line-height: 0;
+}
+.product-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform .5s ease;
+}
+.product-card:hover .product-media img { transform: scale(1.04); }
+.product-media.is-failed img { display: none; }
+.product-media.is-failed::after {
+  content: attr(data-title);
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--maroon);
+}
+
+.heat-badge {
+  position: absolute;
+  left: .7rem;
+  top: .7rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .7rem .3rem .6rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 253, 248, .86);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.heat-dots { display: inline-flex; gap: 3px; }
+.heat-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.heat-dots i.on { background: var(--red); }
+
+.product-body { flex: 1; padding: 1.1rem 1.1rem 1.15rem; display: flex; flex-direction: column; gap: .8rem; }
+.product-head { display: flex; justify-content: space-between; align-items: flex-start; gap: .8rem; }
+.product-title { font-family: var(--font-display); font-weight: 700; font-size: 1.28rem; line-height: 1.18; }
+.price { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; flex-shrink: 0; }
+.price strong { font-size: 1.25rem; font-weight: 700; color: var(--maroon); }
+.price span { font-size: .74rem; color: var(--muted); margin-top: .15rem; }
+.product-desc { font-size: .88rem; color: var(--muted); line-height: 1.45; }
+
+.method { background: var(--cream); border: 1px solid var(--line); border-radius: var(--r-md); padding: .65rem .8rem; }
+.method-title { font-size: .76rem; font-weight: 700; color: var(--red); margin-bottom: .25rem; }
+.method ul { display: grid; gap: .3rem; }
+.method li { font-size: .8rem; line-height: 1.4; color: #4A3F3A; }
+
+.product-actions { margin-top: auto; padding-top: .2rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.btn-ingredients {
+  min-height: 44px;
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  font-size: .85rem;
+  font-weight: 600;
+  transition: background-color .2s, border-color .2s;
+}
+.btn-ingredients:hover { background: var(--cream-2); border-color: var(--gold-deep); }
+
+.btn-add {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--maroon);
+  color: #fff;
+  font-weight: 600;
+  font-size: .88rem;
+  transition: background-color .2s, transform .1s;
+}
+.btn-add:hover { background: var(--maroon-dark); }
+.btn-add:active { transform: scale(.98); }
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  background: var(--cream);
+  border: 1.5px solid var(--maroon);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.qty-control.is-bump { animation: bump .25s ease; }
+@keyframes bump { 50% { transform: scale(1.04); } }
+.qty-btn { width: 42px; height: 42px; border: 0; background: transparent; font-size: 1.25rem; font-weight: 600; color: var(--maroon); transition: background-color .15s; }
+.qty-btn:hover { background: var(--cream-2); }
+.qty-value { font-weight: 700; font-size: .95rem; }
+
+.delivery-note { text-align: center; margin-top: 1.8rem; font-weight: 500; color: var(--maroon-dark); }
+
+/* ---------- 8. CTA band, how, reviews, FAQ, closing ---------- */
+.cta-band { background: var(--maroon); color: #fff; padding: 2.2rem var(--pad-x); }
+.cta-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+.cta-band h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3.4vw, 1.9rem); margin-bottom: .3rem; }
+.cta-band p { color: rgba(255, 255, 255, .82); max-width: 52ch; }
+@media (min-width: 760px) { .cta-inner { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+.how { text-align: center; }
+.steps { display: flex; flex-direction: column; align-items: center; gap: .6rem; max-width: 900px; margin: 0 auto; }
+.step {
+  width: 100%;
+  max-width: 280px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 1.1rem 1.2rem;
+}
+.step h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--maroon); margin-bottom: .2rem; }
+.step p { font-size: .88rem; color: var(--muted); }
+.step-plus { font-size: 1.6rem; font-weight: 600; color: var(--gold-deep); user-select: none; }
+@media (min-width: 800px) { .steps { flex-direction: row; justify-content: center; gap: 1rem; } .step { max-width: 260px; } }
+
+.reviews { padding-left: 0; padding-right: 0; }
+.reviews .section-head { padding: 0 var(--pad-x); }
+.review-scroll { overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; padding: .4rem var(--pad-x) 1rem; }
+.review-gallery { display: flex; gap: .9rem; width: max-content; margin: 0 auto; }
+.review-thumb {
+  flex: 0 0 auto;
+  width: clamp(150px, 38vw, 200px);
+  aspect-ratio: 9 / 16;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--paper);
+  scroll-snap-align: start;
+  box-shadow: 0 6px 18px -12px rgba(80, 40, 20, .35);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.review-thumb:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+.review-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.faq { max-width: 860px; }
+.faq-list { display: grid; gap: .7rem; }
+.faq-item { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+.faq-item h3 { font-size: 1rem; font-weight: 600; }
+.faq-q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: none;
+  border: 0;
+  text-align: left;
+  font-weight: 600;
+  font-size: .98rem;
+  transition: color .2s;
+}
+.faq-q:hover { color: var(--maroon); }
+.faq-icon { position: relative; flex: 0 0 18px; height: 18px; }
+.faq-icon::before, .faq-icon::after {
+  content: '';
+  position: absolute;
+  inset: 8px 0 auto 0;
+  height: 2px;
+  background: var(--gold-deep);
+  border-radius: 2px;
+  transition: transform .3s ease;
+}
+.faq-icon::after { transform: rotate(90deg); }
+.faq-item.is-open .faq-icon::after { transform: rotate(0); }
+
+.faq-a {
+  display: grid;
+  grid-template-rows: 0fr;
+  background: var(--cream);
+  transition: grid-template-rows .35s ease;
+}
+.faq-a > div { overflow: hidden; }
+.faq-a p { padding: 0 1.2rem; font-size: .92rem; color: var(--muted); }
+.faq-item.is-open .faq-a { grid-template-rows: 1fr; border-top: 1px solid var(--line); }
+.faq-item.is-open .faq-a p { padding: .9rem 1.2rem 1rem; }
+.faq-a a { text-decoration: underline; color: var(--maroon); }
+
+.closing { text-align: center; padding: 3rem var(--pad-x) 3.4rem; display: grid; justify-items: center; gap: .8rem; }
+.closing h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 3.6vw, 2rem); }
+.closing p { color: var(--muted); }
+
+/* ---------- 9. Footer & cart bar ---------- */
+.site-footer { background: #1D1514; color: #B9AFAA; padding: 3rem var(--pad-x) 1.4rem; font-size: .9rem; }
+.footer-grid {
+  max-width: var(--maxw);
+  margin: 0 auto 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 2rem;
+}
+.footer-col { display: flex; flex-direction: column; gap: .45rem; align-items: flex-start; }
+.footer-col h3 { font-family: var(--font-display); font-size: 1.05rem; color: #fff; margin-bottom: .3rem; }
+.footer-col a:hover { color: #fff; text-decoration: underline; }
+.footer-brand p { max-width: 34ch; }
+.footer-brand .brand { margin-bottom: .4rem; }
+.fssai { margin-top: .4rem; }
+.footer-bottom { max-width: var(--maxw); margin: 0 auto; border-top: 1px solid #332927; padding-top: 1.1rem; text-align: center; font-size: .8rem; }
+
+.cart-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1500;
+  background: rgba(36, 27, 25, .94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+  padding: .8rem var(--pad-x) calc(.8rem + env(safe-area-inset-bottom, 0));
+  transform: translateY(105%);
+  transition: transform .3s ease;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, .25);
+}
+.cart-bar.is-active { transform: translateY(0); }
+.cart-bar-inner { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.cart-bar-items { font-weight: 700; color: var(--gold); }
+.cart-bar-total { font-size: .85rem; color: #D8CFCA; }
+
+/* ---------- 10. Modals & checkout form ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(30, 18, 14, .55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s;
+}
+.modal.is-open { opacity: 1; visibility: visible; }
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 1.6rem 1.4rem 1.4rem;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .45);
+  transform: translateY(18px);
+  transition: transform .25s ease;
+}
+.modal.is-open .modal-card { transform: none; }
+.modal-card--sm { max-width: 420px; }
+
+.modal-x {
+  position: absolute;
+  top: .6rem;
+  right: .7rem;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cream-2);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--maroon);
+}
+.modal-x:hover { background: var(--line); }
+
+.modal-title { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--maroon); margin: 0 2rem 1rem 0; }
+.ingredients-text {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: .95rem;
+  font-size: .92rem;
+  line-height: 1.55;
+  margin-bottom: 1.2rem;
+}
+.modal-ok { display: flex; margin: 0 auto; }
+
+.cart-breakdown { background: var(--cream); border: 1px solid var(--line); border-radius: var(--r-md); padding: .8rem .9rem; margin-bottom: 1rem; font-size: .88rem; }
+.cart-row { display: flex; justify-content: space-between; gap: 1rem; padding: .4rem 0; border-bottom: 1px dashed var(--line); }
+.cart-row:last-child { border-bottom: 0; }
+.cart-total { font-weight: 700; color: var(--maroon); border-top: 1px solid var(--line); border-bottom: 0; margin-top: .3rem; padding-top: .6rem; }
+
+.notice {
+  background: #FFF4DB;
+  border: 1px solid var(--gold);
+  border-radius: var(--r-sm);
+  padding: .65rem .8rem;
+  font-size: .8rem;
+  line-height: 1.45;
+  color: #6B4709;
+  margin-bottom: 1.1rem;
+}
+
+.field { margin-bottom: .95rem; }
+.field label { display: block; font-size: .82rem; font-weight: 600; margin-bottom: .3rem; }
+.field input, .field textarea {
+  width: 100%;
+  padding: .72rem .85rem;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 1rem; /* ≥16px stops iOS zoom-on-focus */
+  transition: border-color .2s, box-shadow .2s;
+}
+.field textarea { resize: vertical; min-height: 84px; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(139, 31, 32, .15); }
+.field.has-error input, .field.has-error textarea, .field.has-error .phone-wrap { border-color: var(--red); }
+.field-error { min-height: 0; margin-top: .3rem; font-size: .78rem; color: var(--red); }
+.field-error:empty { display: none; }
+
+.phone-wrap { display: flex; border: 1.5px solid var(--line); border-radius: var(--r-sm); background: #fff; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+.phone-wrap:focus-within { border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(139, 31, 32, .15); }
+.phone-prefix { display: grid; place-items: center; padding: 0 .8rem; background: var(--cream-2); border-right: 1px solid var(--line); font-weight: 700; font-size: .92rem; user-select: none; }
+.phone-wrap input { border: 0; border-radius: 0; box-shadow: none; }
+.phone-wrap input:focus { box-shadow: none; }
+
+.fine-print { margin-top: .8rem; font-size: .75rem; color: var(--muted); text-align: center; }
+.fine-print a { text-decoration: underline; color: var(--maroon); }
+
+.success-text { margin-bottom: .8rem; line-height: 1.55; }
+.success-text.muted { color: var(--muted); font-size: .9rem; }
+.success-actions { display: grid; gap: .6rem; margin-top: 1rem; }
+
+@media (max-width: 600px) {
+  .modal { align-items: flex-end; padding: 0; }
+  .modal-card { max-width: none; border-radius: var(--r-lg) var(--r-lg) 0 0; max-height: 92dvh; padding-bottom: calc(1.4rem + env(safe-area-inset-bottom, 0)); transform: translateY(40px); }
+}
+
+/* ---------- 11. Story viewer ---------- */
+.story-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  background: rgba(22, 13, 11, .92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s;
+}
+.story-viewer.is-open { opacity: 1; visibility: visible; }
+
+.story-stage {
+  --stage-h: min(94dvh, 820px);
+  position: relative;
+  height: var(--stage-h);
+  width: min(100vw, calc(var(--stage-h) * 9 / 16));
+  background: var(--cream);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.story-viewer.is-open .story-stage { animation: storyIn .3s ease both; }
+@keyframes storyIn { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+
+.story-content { position: absolute; inset: 0; }
+.story-image { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+/* top scrim + progress + header (taps pass through except on buttons) */
+.story-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 3;
+  padding: .7rem .8rem 2.4rem;
+  background: linear-gradient(to bottom, rgba(36, 18, 14, .62), rgba(36, 18, 14, 0));
+  pointer-events: none;
+}
+.story-top button { pointer-events: auto; }
+.story-bars { display: flex; gap: 4px; margin-bottom: .6rem; }
+.story-bar { flex: 1; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .38); overflow: hidden; }
+.story-bar i { display: block; height: 100%; background: #fff; transform: scaleX(0); transform-origin: left; }
+.story-bar.is-done i { transform: scaleX(1); }
+.story-bar.is-active i { animation: storyFill var(--story-dur, 6s) linear forwards; }
+.story-viewer.is-paused .story-bar.is-active i { animation-play-state: paused; }
+@keyframes storyFill { to { transform: scaleX(1); } }
+
+.story-head { display: flex; align-items: center; gap: .6rem; color: #fff; }
+.story-avatar {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--gold);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.story-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.story-who { flex: 1; min-width: 0; line-height: 1.2; }
+.story-handle { font-size: .85rem; font-weight: 600; }
+.story-title { font-size: .72rem; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.story-btn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.story-btn:hover { background: rgba(255, 255, 255, .3); }
+.story-btn .i-play { display: none; }
+.story-btn[aria-pressed="true"] .i-play { display: block; }
+.story-btn[aria-pressed="true"] .i-pause { display: none; }
+
+.story-arrow {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.story-arrow:hover { background: rgba(255, 255, 255, .3); }
+@media (min-width: 700px) { .story-arrow { display: grid; place-items: center; } }
+@media (max-width: 520px) { .story-stage { border-radius: 0; --stage-h: 100dvh; width: 100vw; height: 100dvh; } }
+
+/* HTML (non-image) slides */
+.story-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+  padding: 5.2rem 1.8rem 2.2rem;
+  text-align: left;
+}
+.story-card h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 7vw, 2.3rem); line-height: 1.12; }
+.story-body { display: grid; gap: .9rem; font-size: 1.06rem; line-height: 1.5; }
+.story-cta { align-self: flex-start; margin-top: .4rem; }
+
+.story-stage[data-theme="cream"] .story-card {
+  color: var(--maroon);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 162, 47, .22), transparent 45%),
+    var(--cream);
+  box-shadow: inset 0 0 0 10px var(--cream), inset 0 0 0 11.5px rgba(176, 122, 20, .4);
+}
+.story-stage[data-theme="cream"] .story-body { color: #4A3F3A; }
+.story-stage[data-theme="maroon"] .story-card {
+  color: #fff;
+  background:
+    radial-gradient(circle at 0% 100%, rgba(217, 162, 47, .28), transparent 50%),
+    var(--maroon);
+  box-shadow: inset 0 0 0 10px var(--maroon), inset 0 0 0 11.5px rgba(245, 220, 142, .5);
+}
+.story-stage[data-theme="maroon"] .story-body { color: rgba(255, 255, 255, .92); }
+
+.story-steps { display: grid; gap: .7rem; }
+.story-steps li {
+  display: grid;
+  gap: .1rem;
+  padding: .8rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.story-steps strong { font-family: var(--font-display); font-size: 1.15rem; color: var(--maroon); }
+.story-steps span { font-size: .92rem; color: var(--muted); }
+.story-note { font-size: .95rem; }
+
+.story-list { display: grid; gap: .45rem; }
+.story-list li { padding: .5rem .9rem; border-radius: var(--r-pill); background: rgba(255, 255, 255, .14); border: 1px solid rgba(245, 220, 142, .4); font-weight: 500; font-size: 1rem; }
+.story-stage[data-theme="cream"] .story-list li { background: var(--paper); border-color: var(--line); color: var(--ink); }
+
+.story-meter { display: flex; gap: .45rem; }
+.story-meter i { width: 26px; height: 26px; border-radius: 50%; background: rgba(139, 31, 32, .16); }
+.story-meter i.on { background: var(--red); }
+.story-stage[data-theme="maroon"] .story-meter i { background: rgba(255, 255, 255, .22); }
+.story-stage[data-theme="maroon"] .story-meter i.on { background: var(--gold); }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.2rem + env(safe-area-inset-bottom, 0));
+  z-index: 4000;
+  transform: translate(-50%, 20px);
+  max-width: calc(100% - 2rem);
+  padding: .65rem 1.1rem;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: #fff;
+  font-size: .88rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+body.has-cart .toast { bottom: calc(5.8rem + env(safe-area-inset-bottom, 0)); }
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 12. Legal pages & utilities (used by privacy / terms / refunds) ---------- */
+.legal { max-width: 780px; margin: 0 auto; padding: 2.4rem var(--pad-x) 3.6rem; }
+.legal h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 5vw, 2.8rem); color: var(--maroon); margin-bottom: .4rem; }
+.legal .updated { color: var(--muted); font-size: .88rem; margin-bottom: 2rem; }
+.legal h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 2rem 0 .5rem; }
+.legal p, .legal li { color: #4A3F3A; margin-bottom: .7rem; }
+.legal ul { list-style: disc; padding-left: 1.3rem; }
+.legal a { color: var(--maroon); text-decoration: underline; }
+.legal-back { display: inline-flex; margin-bottom: 1.2rem; font-weight: 500; color: var(--maroon); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* ---------- 13. Additions: announce bar, logos, skeletons, policy pages ---------- */
+.announce {
+  background: var(--maroon);
+  color: #fff;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 500;
+  padding: .5rem var(--pad-x);
+}
+.brand-logo { height: 42px; width: auto; max-width: 210px; object-fit: contain; display: block; }
+@media (max-width: 420px) { .brand-logo { height: 36px; max-width: 150px; } }
+.foot-logo { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; display: block; background: var(--gold); }
+
+.skel { position: relative; background: var(--cream-2); }
+.skel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .6) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+.skel.is-loaded::before, .skel.is-failed::before { display: none; }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .skel::before { animation: none; } }
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  background: var(--cream);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.sheet.is-open { opacity: 1; visibility: visible; transform: none; }
+.sheet-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem var(--pad-x);
+  padding-top: calc(.7rem + env(safe-area-inset-top, 0));
+  background: rgba(252, 247, 235, .88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.sheet-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 40px;
+  padding: .4rem 1rem .4rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  font-weight: 600;
+  font-size: .88rem;
+  color: var(--maroon);
+}
+.sheet-back:hover { background: var(--cream-2); }
+.sheet-nav { display: flex; gap: 1rem; font-size: .85rem; font-weight: 500; }
+.sheet-nav a { padding: .3rem 0; border-bottom: 2px solid transparent; }
+.sheet-nav a:hover { border-color: var(--gold); color: var(--maroon); }
+.legal-note {
+  background: #FFF4DB;
+  border: 1px solid var(--gold);
+  border-radius: var(--r-md);
+  padding: .8rem 1rem;
+  margin-bottom: 1.2rem;
+  color: #6B4709;
+}
+@media (max-width: 520px) { .sheet-nav { display: none; } }
+
+</style>
 
   <script type="application/ld+json">
   {
@@ -41,15 +1097,11 @@
   <a class="skip-link" href="#catalogue">Skip to products</a>
 
   <!-- ======================= HEADER ======================= -->
+  <div class="announce"><p>Flat ₹120 per pack · Pan-India shipping · Ready in 30 minutes or less</p></div>
+
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="index.html" aria-label="Flavoura home">
-        <span class="brand-mark" aria-hidden="true">F</span>
-        <span class="brand-text">
-          <span class="brand-name">Flavoura</span>
-          <span class="brand-tag">Swaad jo maa ki yaad dilae</span>
-        </span>
-      </a>
+      <a class="brand" href="#top" aria-label="Flavoura home"><img class="brand-logo" src="https://lh3.googleusercontent.com/d/1BOQm9Xw0A_eFbhqlFRYokwxuVke2cYJ3" alt="Flavoura: Swaad Jo Maa Ki Yaad Dilae" height="42" decoding="async" referrerpolicy="no-referrer"></a>
 
       <nav class="main-nav" aria-label="Main">
         <a href="#catalogue">Shop</a>
@@ -82,6 +1134,9 @@
 
     <!-- ======================= HERO ======================= -->
     <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-banner skel">
+        <img src="https://lh3.googleusercontent.com/d/1TNHCex2SNq5V95PPURlBXIl_xxZZWWW-" alt="Flavoura: delicious meals in minutes" fetchpriority="high" decoding="async" referrerpolicy="no-referrer">
+      </div>
       <div class="hero-copy">
         <p class="pill pill-gold">Pure veg instant masala premixes</p>
         <h1 id="heroTitle">Restaurant-style dinner. No chopping, no peeling.</h1>
@@ -96,19 +1151,6 @@
           <li class="pill">Zero prep</li>
           <li class="pill">No preservatives</li>
         </ul>
-      </div>
-
-      <div class="hero-art">
-        <div class="hero-frame">
-          <img src="assets/angaara-hero.webp" alt="Flavoura Smoked Angaara Instant Premix, 80g jar" width="821" height="845" fetchpriority="high">
-        </div>
-        <div class="hero-chip">
-          <div>
-            <p class="chip-title">Angaara Premix</p>
-            <p class="chip-meta">80g pack · ₹120</p>
-          </div>
-          <button type="button" class="btn btn-primary btn-sm" data-add="angaara">Add</button>
-        </div>
       </div>
     </section>
 
@@ -248,7 +1290,7 @@
 
         <div class="faq-item">
           <h3><button type="button" class="faq-q" data-faq aria-expanded="false" aria-controls="faq-a8" id="faq-q8">Is there a minimum order, and how does shipping work?<span class="faq-icon" aria-hidden="true"></span></button></h3>
-          <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div><p>There's no minimum order. You can order a single bottle. Delivery charges are paid by the customer, and we accept standard digital payments (UPI, GPay, Paytm, cards) on WhatsApp. See our <a href="refunds.html">refund &amp; cancellation policy</a> for details.</p></div></div>
+          <div class="faq-a" id="faq-a8" role="region" aria-labelledby="faq-q8"><div><p>There's no minimum order. You can order a single bottle. Delivery charges are paid by the customer, and we accept standard digital payments (UPI, GPay, Paytm, cards) on WhatsApp. See our <a href="#refunds">refund &amp; cancellation policy</a> for details.</p></div></div>
         </div>
       </div>
     </section>
@@ -265,10 +1307,7 @@
   <footer class="site-footer">
     <div class="footer-grid">
       <div class="footer-col footer-brand">
-        <a class="brand brand-light" href="index.html" aria-label="Flavoura home">
-          <span class="brand-mark" aria-hidden="true">F</span>
-          <span class="brand-text"><span class="brand-name">Flavoura</span></span>
-        </a>
+        <a class="brand" href="#top" aria-label="Flavoura home"><img class="foot-logo" src="https://lh3.googleusercontent.com/d/1gI_P_B8gMev85aUf8e-GpGlnFzBLOlHh" alt="Flavoura" width="68" height="68" loading="lazy" decoding="async" referrerpolicy="no-referrer"></a>
         <p>Instant cooking premixes made with natural ingredients, real nuts and whole spices.</p>
         <p>Pan-India shipping available.</p>
       </div>
@@ -283,9 +1322,9 @@
 
       <nav class="footer-col" aria-label="Legal">
         <h3>Policies</h3>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
-        <a href="refunds.html">Refund &amp; Cancellation</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Service</a>
+        <a href="#refunds">Refund &amp; Cancellation</a>
       </nav>
 
       <div class="footer-col">
@@ -358,7 +1397,7 @@
           </div>
 
           <button type="submit" class="btn btn-whatsapp btn-block" id="submitOrder">Submit order for call-back</button>
-          <p class="fine-print">By submitting you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+          <p class="fine-print">By submitting you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</p>
         </form>
       </div>
 
@@ -382,7 +1421,7 @@
       <div class="story-top">
         <div class="story-bars" aria-hidden="true"></div>
         <div class="story-head">
-          <span class="story-avatar" aria-hidden="true">F</span>
+          <span class="story-avatar" aria-hidden="true"><img src="https://lh3.googleusercontent.com/d/1gI_P_B8gMev85aUf8e-GpGlnFzBLOlHh" alt="" referrerpolicy="no-referrer"></span>
           <div class="story-who">
             <p class="story-handle">myflavoura</p>
             <p class="story-title"></p>
@@ -400,8 +1439,1189 @@
     <button type="button" class="story-arrow story-arrow--next" data-story-next aria-label="Next">›</button>
   </div>
 
+
+  <!-- ======================= POLICY PAGES ======================= -->
+  <div class="sheet" data-sheet="privacy" role="dialog" aria-modal="true" aria-labelledby="privacy-title" aria-hidden="true">
+    <div class="sheet-bar"><button type="button" class="sheet-back" data-close-sheet><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>Back to shop</button><nav class="sheet-nav" aria-label="Policies"><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#refunds">Refunds</a></nav></div>
+    <article class="legal">
+      <h1 id="privacy-title">Privacy Policy</h1>
+      <p class="updated">Last updated: 2 October 2026</p>
+      <p>Flavoura ("we", "us") sells instant cooking premixes through this website, WhatsApp and Instagram. This policy explains what personal information we collect when you order, how we use it, and the choices you have. By placing an order or using this site you agree to this policy.</p>
+
+      <h2>1. Information we collect</h2>
+      <ul>
+        <li><strong>Order details you give us:</strong> your full name, 10-digit mobile number, delivery address and the items you order.</li>
+        <li><strong>Messages you send us</strong> on WhatsApp or Instagram, including your pre-filled order message.</li>
+        <li><strong>Data stored in your own browser:</strong> your cart and which story highlights you have viewed. This stays on your device and is not sent to us.</li>
+      </ul>
+      <p>We do not collect card, bank or UPI credentials on this website. Payments are made directly to us after we confirm your order.</p>
+
+      <h2>2. How we use your information</h2>
+      <ul>
+        <li>To receive, confirm and fulfil your order, including calling or messaging you about delivery charges and payment.</li>
+        <li>To arrange delivery and handle questions, replacements or refunds.</li>
+        <li>To keep records we need for accounting, food-safety and legal compliance.</li>
+        <li>To reply to your feedback or questions.</li>
+      </ul>
+      <p>We will not use your phone number for promotional messages unless you ask us to.</p>
+
+      <h2>3. Who we share it with</h2>
+      <p>We never sell your personal information. We share only what is needed with:</p>
+      <ul>
+        <li><strong>Delivery partners</strong> (such as courier services or Uber Parcel): your name, phone number and address.</li>
+        <li><strong>WhatsApp (Meta)</strong>, when you send us your order message.</li>
+        <li><strong>Our internal order-notification tools</strong>, which deliver your order request to our team.</li>
+        <li><strong>Technology providers</strong> that run this site: web hosting, Google Fonts, Google-hosted images and YouTube embeds or links. These providers can see your IP address when your browser loads their content.</li>
+      </ul>
+      <p>We may also disclose information if the law or a government authority requires it.</p>
+
+      <h2>4. Third-party links</h2>
+      <p>This site links to WhatsApp, Instagram and YouTube. Those services have their own privacy policies, and we are not responsible for how they handle your data.</p>
+
+      <h2>5. How long we keep it</h2>
+      <p>We keep order information for as long as needed to fulfil your order, provide support, meet accounting and legal requirements, and then delete or anonymise it.</p>
+
+      <h2>6. Security</h2>
+      <p>We use reasonable safeguards to protect your information. No method of transmission over the internet is completely secure, so we cannot guarantee absolute security.</p>
+
+      <h2>7. Your rights</h2>
+      <p>Under India's Digital Personal Data Protection Act, 2023 you can ask us to give you a summary of the data we hold about you, correct it, or erase it, and you can withdraw your consent at any time. Message us on WhatsApp and we will respond within a reasonable time.</p>
+
+      <h2>8. Children</h2>
+      <p>Our site and products are not directed at children under 18. Orders should be placed by an adult.</p>
+
+      <h2>9. Changes to this policy</h2>
+      <p>We may update this policy from time to time. The date at the top shows when it was last changed.</p>
+
+      <h2>10. Contact us</h2>
+      <p>Flavoura · WhatsApp / phone: <a href="tel:+919088055818">+91 9088055818</a> · Instagram: <a href="https://instagram.com/myflavoura" target="_blank" rel="noopener">@myflavoura</a> · FSSAI Reg. No. 22824038000288</p>
+    </article>
+  </div>
+
+  <div class="sheet" data-sheet="terms" role="dialog" aria-modal="true" aria-labelledby="terms-title" aria-hidden="true">
+    <div class="sheet-bar"><button type="button" class="sheet-back" data-close-sheet><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>Back to shop</button><nav class="sheet-nav" aria-label="Policies"><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#refunds">Refunds</a></nav></div>
+    <article class="legal">
+      <h1 id="terms-title">Terms of Service</h1>
+      <p class="updated">Last updated: 2 October 2026</p>
+      <p>These terms govern your use of the Flavoura website and any order you place with us. By using the site or placing an order you agree to them. If you do not agree, please do not use the site.</p>
+
+      <h2>1. Who can order</h2>
+      <p>You must be 18 or older, or order with the involvement of a parent or guardian, and provide accurate contact and delivery details.</p>
+
+      <h2>2. Products and information</h2>
+      <ul>
+        <li>We try to describe and photograph our premixes accurately. Pack sizes, colours and presentation may vary slightly.</li>
+        <li><strong>Allergens:</strong> several premixes contain tree nuts (cashew, almond), milk and sesame. Check the ingredients shown for each product before ordering. Do not use a product if you are allergic to any ingredient.</li>
+        <li>The premixes are vegetarian. Pairing with paneer, chicken, fish or vegetables is a serving suggestion, and the "ready in 30 minutes" claim is an estimate that depends on your kitchen and ingredients.</li>
+      </ul>
+
+      <h2>3. Prices and payment</h2>
+      <ul>
+        <li>Prices are shown in Indian rupees (₹) per pack and may change without notice, but never for an order we have already confirmed.</li>
+        <li>Delivery charges are not included in the item price. We confirm the exact charge with you before you pay.</li>
+        <li>We share payment details (UPI, GPay, Paytm, cards or other methods we accept) after we confirm your order.</li>
+      </ul>
+
+      <h2>4. How ordering works</h2>
+      <p>Submitting the order form sends us an order request. It is not a final contract. An order is accepted only when we confirm it to you by call or message and receive your payment. We may decline or cancel an order, for example if stock is unavailable, your area cannot be served, or your details cannot be verified, and we will refund anything you have paid for it.</p>
+
+      <h2>5. Shipping and delivery</h2>
+      <p>We ship across India through courier and parcel partners. Delivery times are estimates and can be affected by factors outside our control. Please give a complete address and a phone number on which you can be reached. Risk in the products passes to you on delivery.</p>
+
+      <h2>6. Storage and use</h2>
+      <p>Store the bottle in a cool, dry place away from direct sunlight. Premixes last up to 6 months. Follow the cooking instructions on the pack and cook food thoroughly, especially chicken and fish.</p>
+
+      <h2>7. Our content</h2>
+      <p>The Flavoura name, logo, photos, videos, text and design on this site belong to us. Please do not copy or reuse them without our written permission.</p>
+
+      <h2>8. Acceptable use</h2>
+      <p>Do not misuse the site, submit false orders, attempt to interfere with its operation, or use it for anything unlawful.</p>
+
+      <h2>9. Limitation of liability</h2>
+      <p>To the extent the law allows, Flavoura is not liable for indirect or consequential loss arising from use of the site or products, and our total liability for any order is limited to the amount you paid for it. Nothing in these terms limits your rights under the Consumer Protection Act, 2019 or any other law that cannot be excluded.</p>
+
+      <h2>10. Governing law</h2>
+      <p>These terms are governed by the laws of India. Disputes will be subject to the courts of India having jurisdiction.</p>
+
+      <h2>11. Changes</h2>
+      <p>We may update these terms from time to time. Orders are governed by the terms in force when you place them.</p>
+
+      <h2>12. Contact</h2>
+      <p>Flavoura · WhatsApp / phone: <a href="tel:+919088055818">+91 9088055818</a> · Instagram: <a href="https://instagram.com/myflavoura" target="_blank" rel="noopener">@myflavoura</a> · FSSAI Reg. No. 22824038000288</p>
+      <p>See also our <a href="#privacy">Privacy Policy</a> and <a href="#refunds">Refund &amp; Cancellation Policy</a>.</p>
+    </article>
+  </div>
+
+  <div class="sheet" data-sheet="refunds" role="dialog" aria-modal="true" aria-labelledby="refunds-title" aria-hidden="true">
+    <div class="sheet-bar"><button type="button" class="sheet-back" data-close-sheet><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>Back to shop</button><nav class="sheet-nav" aria-label="Policies"><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#refunds">Refunds</a></nav></div>
+    <article class="legal">
+      <h1 id="refunds-title">Refund &amp; Cancellation Policy</h1>
+      <p class="updated">Last updated: 2 October 2026</p>
+      <div class="legal-note"><strong>In short:</strong> if your order arrives damaged, leaking or wrong, tell us on WhatsApp within 48 hours with photos and we will replace it or refund you. Food items cannot be returned once opened.</div>
+
+      <h2>1. Cancelling an order</h2>
+      <ul>
+        <li>You can cancel free of charge any time before your order is dispatched. Message us on WhatsApp as soon as possible.</li>
+        <li>Once an order has been dispatched it cannot be cancelled.</li>
+        <li>If you cancel after paying and before dispatch, we refund the full amount you paid.</li>
+      </ul>
+
+      <h2>2. Returns</h2>
+      <p>Because our products are food items, we cannot accept returns of opened or used bottles, or of unopened bottles once delivered, except in the cases listed in section 3.</p>
+
+      <h2>3. Damaged, leaking, wrong or defective products</h2>
+      <p>If your order arrives damaged or leaking, contains the wrong product, or has a quality problem:</p>
+      <ul>
+        <li>Message us on WhatsApp at <a href="tel:+919088055818">+91 9088055818</a> within <strong>48 hours of delivery</strong>.</li>
+        <li>Send clear photos or a short unboxing video showing the product, the batch or label, and the outer packing.</li>
+        <li>After we verify the issue, we will send a replacement or refund the price of the affected product, subject to stock.</li>
+      </ul>
+
+      <h2>4. What we cannot refund</h2>
+      <ul>
+        <li>Change of mind, or a taste or heat-level preference. Spice levels are described on each product and in our FAQ.</li>
+        <li>Products already opened or used, unless there is a quality problem we can verify.</li>
+        <li>Orders not delivered because of an incorrect or incomplete address, or because you could not be reached.</li>
+        <li>Damage that happens after delivery or from improper storage.</li>
+        <li>Claims reported more than 48 hours after delivery.</li>
+      </ul>
+
+      <h2>5. How refunds are paid</h2>
+      <ul>
+        <li>Approved refunds go back to the payment method you used, usually within 5 to 7 working days after approval.</li>
+        <li>Delivery charges are refunded only when the problem was our error, such as a wrong or damaged product.</li>
+      </ul>
+
+      <h2>6. Delayed or lost parcels</h2>
+      <p>If your parcel is much later than the delivery time we gave you, or tracking shows it is lost, contact us and we will follow up with the courier and either re-ship or refund.</p>
+
+      <h2>7. Contact</h2>
+      <p>Flavoura · WhatsApp / phone: <a href="tel:+919088055818">+91 9088055818</a> · Instagram: <a href="https://instagram.com/myflavoura" target="_blank" rel="noopener">@myflavoura</a> · FSSAI Reg. No. 22824038000288</p>
+      <p>See also our <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>.</p>
+    </article>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js" defer></script>
+<!-- Embedded highlight icons. Do not edit. -->
+  <script>
+  const FLAVOURA_ICONS = {"products": "data:image/webp;base64,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", "recipes": "data:image/webp;base64,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", "ordering": "data:image/webp;base64,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", "faqs": "data:image/webp;base64,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", "reviews": "data:image/webp;base64,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"};
+  </script>
+  <script>
+/* ==========================================================================
+   FLAVOURA — site logic
+   Cart · catalogue · modals · checkout validation · Discord "Spice Bot"
+   webhook · WhatsApp handoff · Instagram-style story viewer · FAQ
+   Pure vanilla JS, no build step.
+   ========================================================================== */
+(() => {
+  'use strict';
+
+  /* ------------------------------------------------------------------------
+     1. CONFIG — edit values here, nowhere else
+     ------------------------------------------------------------------------ */
+  const CONFIG = {
+    whatsappNumber: '919088055818',          // country code + number, no "+"
+    // Spice Bot webhook (Flavoura channel). Kept exactly as in the original site.
+    discordWebhookUrl:
+      'https://discord.com/api/webhooks/1548727130454761502/uQbUb9BvtlTtMTnQ_p2pIy8NpEg0-giznGYbSz53Ux3ASdwYvndbcUNYli1yaNMSc_fh',
+    discordColor: 12068138,                  // Flavoura brand red (#B8252A)
+    currency: '₹',
+    maxQtyPerItem: 99,
+    storageKey: 'flavoura.cart.v1',
+    viewedKey: 'flavoura.stories.viewed.v1',
+    storyDurationMs: { image: 6000, card: 7000 }
+  };
+
+  /* ------------------------------------------------------------------------
+     2. DATA — products
+     Each product `img` is a Google Drive file ID wrapped in drive('...').
+     Product photos should be square (1:1).
+     ------------------------------------------------------------------------ */
+  /* ---- YOUR IMAGES: Google Drive file IDs (the long code in each Drive link) ---- */
+  const drive = id => `https://lh3.googleusercontent.com/d/${id}`;
+  const IMAGES = {
+    round: '1gI_P_B8gMev85aUf8e-GpGlnFzBLOlHh',
+    reviews: [
+        "15D2sC_Kug4t1PYWiaUS_K2pnBopKVw8T",
+        "16k9Y_W1-CjqwOQXOeRPlOBdpdTTRfTGs",
+        "17fD2NRR542qi4JLQXq8u88cUxu5FYOTn",
+        "1J7iPQMmHtaItEoV1f3lGvLbybA0ztscM",
+        "1KPY-1_13692qkDTEtSjMy8Tks6y3ZfEu",
+        "1T8qstHkOWA1aXhRNqww15NFPaRXC37pI",
+        "1VVDQZlIY_KkmIqwkLoU6FizElO9Vi9YD",
+        "1W0EGZEt87YlBTa5SgmXEEQ5yn5VImXuU",
+        "1mVlhTRYiIjJMUUTERrm1L4q1aBAoF6JZ",
+        "1mxF9LJ6sBF8i6Iy_UGhw1Sh8LOC_xts4",
+        "1z72wDP0n0t2VL7Z28sSU8aAvKFJ2Wjr2"
+],
+    faqs: [
+        "1Cm4l08ccD1fdkQzxMD3F3HGm3tTX4W4R",
+        "1RQ0kO1IsvyXhAT0rXUgiiu2EJ6xSlBeY",
+        "1ekyMqQXEYlLtUwkVc22gVkQ-7lswdrgv",
+        "1mAU15cA2f3d-ZAFKn--oFCMOAQtR93jV",
+        "1sywLbzQmH366XEo4w4Drl1EQpEA0x4Z9",
+        "1uE6GiQSLR96ta0cei-Jzphxx7TuL1Uzz",
+        "1wiQKn8iCZBSTxUrogZC_MWkG2-_TTVcH"
+]
+  };
+
+  const HEAT = {
+    mild:   { level: 1, label: 'Mild' },
+    medium: { level: 2, label: 'Medium' },
+    bold:   { level: 3, label: 'Bold' }
+  };
+
+  const PRODUCTS = [
+    {
+      id: 'achaari',
+      name: 'Achaari Premix',
+      title: 'Achaari Premix',
+      category: 'gravy',
+      price: 120,
+      size: '80g',
+      heat: 'medium',
+      img: drive('1aji77tplyuewCGq5Utjl1_o500Up-AcC'),
+      desc: 'Tangy, zesty pickle flavor base with saunf, zeera, mustard & kalaunji.',
+      method: [{ text: '400g tomato puree + 500g protein + 80g premix (entire bottle). Sauté & cook in oil.' }],
+      ingredients:
+        'This premix contains methi daana, saunf, zeera, mustard, kalaunji, Kashmiri red chilli, coriander seeds, citric acid, onion, ginger, and garlic powders, black salt, garam masala, and haldi.'
+    },
+    {
+      id: 'haryali',
+      name: 'Haryali Premix',
+      title: 'Haryali Premix',
+      category: 'marinade',
+      price: 120,
+      size: '60g',
+      heat: 'medium',
+      img: drive('1rmVdIN9BQxlbXgLN6IM0OX1A5E46PK6q'),
+      desc: 'Fresh green marinade with green chilli, kaju, and fried onion.',
+      method: [{ text: '500g protein + 60g premix (full bottle). Add oil/butter, pan fry & cook.' }],
+      ingredients:
+        'This premix contains dalchini, cardamom (black and green), clove, black pepper, star anise, kaju powder, onion and milk powders, zeera, coriander, ginger, garam masala, garlic flakes, green chilli, fried onion, salt and food colour.'
+    },
+    {
+      id: 'angaara',
+      name: 'Angaara Premix',
+      title: 'Angaara Premix',
+      category: 'marinade',
+      price: 120,
+      size: '80g',
+      heat: 'bold',
+      img: drive('15Y9dkWPW9dJcm2KsXGib4fZtB5gP5LRV'),
+      desc: 'Rich restaurant-style marinade with cashews, almonds, and spices.',
+      method: [{ text: '500g protein + 80g premix (full bottle) + 200g thick curd. Cook till tender.' }],
+      ingredients:
+        'This premix contains cashew, almond, dalchini, green cardamom, Kashmiri lal mirch, clove, black pepper, star anise, ginger, milk, and garlic powders, cornflour, Kashmiri red chilli, coriander, cumin, and garam masala powders, salt, kasuri methi, and fried onion.'
+    },
+    {
+      id: 'fishfry',
+      name: 'Fish Fry Premix',
+      title: 'Fish Fry Premix',
+      category: 'marinade',
+      price: 120,
+      size: '60g',
+      heat: 'medium',
+      img: drive('1b9cMhLQoNv9bkncIHA3JQF4mGJ4MLRpD'),
+      desc: 'Crispy marinade with ajwain, rai, cumin, and Kashmiri chilli.',
+      method: [{ text: '500g fish slices + 20g premix (1/3 bottle) + 1 tbsp lemon juice. Shallow pan-fry.' }],
+      ingredients:
+        'This premix contains coriander powder, Kashmiri red chilli, garlic and ginger powders, cumin powder, turmeric, chaat masala, garam masala, rai, and ajwain.'
+    },
+    {
+      id: 'tandoori',
+      name: 'Tandoori Premix',
+      title: 'Tandoori Premix',
+      category: 'marinade',
+      price: 120,
+      size: '60g',
+      heat: 'bold',
+      img: drive('1SDIxz_5Td3mHqZLl5Pi-LBLUPtnjJ1wW'),
+      desc: 'Classic tandoori marinade with aamchur, jayphal, and Kashmiri chilli.',
+      method: [{ text: '500g chicken/paneer + 30g premix (1/2 bottle) + 200g curd + lemon juice. Cook in pan.' }],
+      ingredients:
+        'This premix contains Kashmiri chilli powder, zeera powder, chaat masala, aamchur powder, salt, ginger powder, garlic powder, garam masala and jayphal powder.'
+    },
+    {
+      id: 'whitegravy',
+      name: 'White Gravy Premix',
+      title: 'White Gravy',
+      category: 'gravy',
+      price: 120,
+      size: '60g',
+      heat: 'mild',
+      img: drive('1ZnNnrIqWTiJEBpkotLc4nMMLosV-teOf'),
+      desc: 'Rich Mughlai gravy with cashew, melon seeds, and white sesame.',
+      method: [
+        { label: 'Paneer:', text: 'Mix 60g premix + milk paste. Cook in butter/oil until thick, add 500g paneer.' },
+        { label: 'Chicken:', text: 'Marinate 500g chicken with 60g premix + 200g curd. Cook in butter/oil.' }
+      ],
+      ingredients:
+        'This premix contains cashew, melon seeds, white sesame, milk powder, chaat masala, salt, cornflour, onion powder, garlic powder, ginger powder, sugar, garam masala, and kasuri methi.'
+    },
+    {
+      id: 'redgravy',
+      name: 'Red Gravy Premix',
+      title: 'Red Gravy',
+      category: 'gravy',
+      price: 120,
+      size: '80g',
+      heat: 'medium',
+      img: drive('1RNYkqEYmSXWtiaEQcJKiOdq6MwFpMqle'),
+      desc: 'Classic North Indian gravy base with cashews, milk powder, and red chilli.',
+      method: [
+        { label: 'Veg/Paneer:', text: 'Cook 400g tomato puree in oil. Add 80g premix water-paste + 500g paneer/veg.' },
+        { label: 'Chicken:', text: 'Marinate 500g chicken with 80g premix + curd/water. Add to cooked tomato puree.' }
+      ],
+      ingredients:
+        'This premix contains cashew, white sesame, melon seeds, milk powder, chaat masala, onion powder, garlic powder, ginger powder, red chilli powder, garam masala, cornflour, salt, sugar, kasuri methi, ghee, and red food color.'
+    },
+    {
+      id: 'goldengravy',
+      name: 'Golden Gravy Premix',
+      title: 'Golden Gravy',
+      category: 'gravy',
+      price: 120,
+      size: '80g',
+      heat: 'medium',
+      img: drive('1AtIqdvmWTJBsqtHeWW-3201oYfc_F89g'),
+      desc: 'Rich cashew & sesame base. Great for Shahi Paneer, veggies or chicken.',
+      method: [{ text: '400g tomato puree + 80g premix (entire bottle) + 500g protein/veg. Cook in oil until thick.' }],
+      ingredients:
+        'This premix contains cashew, melon seeds, white sesame, milk powder, chaat masala, salt, onion powder, garlic powder, ginger powder, haldi, red chilli powder, coriander powder, garam masala, kasuri methi, and sugar.'
+    }
+  ];
+
+  const BY_ID = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+
+  /* ------------------------------------------------------------------------
+     3. DATA — Instagram-style story highlights
+     Slide types:
+       image → { type:'image', src, alt }
+       card  → { type:'card', theme, title, html, cta? }
+     ------------------------------------------------------------------------ */
+  const pad = n => String(n).padStart(2, '0');
+
+  const reviewSlides = IMAGES.reviews.map((id, i) => ({
+    type: 'image',
+    src: drive(id),
+    alt: `Customer review ${i + 1} of ${IMAGES.reviews.length}`
+  }));
+
+  const faqSlides = IMAGES.faqs.map((id, i) => ({
+    type: 'image',
+    src: drive(id),
+    alt: `Flavoura FAQ ${i + 1} of ${IMAGES.faqs.length}`
+  }));
+
+  const ICONS = {
+    spice: `<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M40 14c10 3 12 14 4 26-7 10-19 17-31 16-4-.3-5-4-2-6 9-4 16-9 20-17 2-4 2-8 5-13 1-3 2-5 4-6z"/><path fill="currentColor" d="M38 13c0-4 3-7 8-8-1 3-2 5-4 7z"/></svg>`,
+    about: ''
+  };
+
+  const STORIES = [
+    {
+      id: 'recipes',
+      label: 'Quick Recipes',
+      icon: FLAVOURA_ICONS.recipes,
+      slides: [
+        {
+          type: 'card', theme: 'cream', title: '3 things. 30 minutes.',
+          html: `<ol class="story-steps">
+                   <li><strong>Main</strong><span>Chicken, paneer, fish or veggies</span></li>
+                   <li><strong>Flavoura premix</strong><span>Your favourite flavour pack</span></li>
+                   <li><strong>Masala base</strong><span>Curd or tomato puree</span></li>
+                 </ol>
+                 <p class="story-note">No chopping onions. No peeling garlic. Just combine and cook.</p>`
+        },
+        {
+          type: 'card', theme: 'maroon', title: 'Gravy or dry? Your call.',
+          html: `<p>Add curd or tomato puree for a thick, restaurant-style gravy.</p>
+                 <p>Want a tikka-style starter instead? Marinate with less liquid and pan-fry.</p>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'Watch the recipes',
+          html: `<p>Every premix has a step-by-step video on our YouTube playlist.</p>`,
+          cta: { label: 'Open YouTube playlist', href: 'https://youtube.com/playlist?list=PLcIbgv4CULTTXqynXPDaPgVsT-ob_uLhc', external: true }
+        }
+      ]
+    },
+    { id: 'reviews', label: 'Customer Reviews', icon: FLAVOURA_ICONS.reviews, slides: reviewSlides },
+    {
+      id: 'spice',
+      label: 'Spice Levels',
+      iconHtml: ICONS.spice,
+      slides: [
+        {
+          type: 'card', theme: 'maroon', title: 'Bold & spicy',
+          html: `<p class="story-meter" aria-label="Three out of three chillies"><i class="on"></i><i class="on"></i><i class="on"></i></p>
+                 <p>Our boldest blends.</p>
+                 <ul class="story-list"><li>Angaara Premix</li><li>Tandoori Premix</li></ul>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'Medium heat',
+          html: `<p class="story-meter" aria-label="Two out of three chillies"><i class="on"></i><i class="on"></i><i></i></p>
+                 <p>Balanced, everyday heat.</p>
+                 <ul class="story-list"><li>Achaari Premix</li><li>Haryali Premix</li><li>Fish Fry Premix</li><li>Red Gravy</li><li>Golden Gravy</li></ul>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'Mild & creamy',
+          html: `<p class="story-meter" aria-label="One out of three chillies"><i class="on"></i><i></i><i></i></p>
+                 <p>Prefer a mild, creamy taste? Go for the White Gravy Premix.</p>`,
+          cta: { label: 'See all premixes', scroll: '#catalogue' }
+        }
+      ]
+    },
+    { id: 'faqs', label: 'FAQs', icon: FLAVOURA_ICONS.faqs, slides: faqSlides },
+    {
+      id: 'ordering',
+      label: 'How to Order',
+      icon: FLAVOURA_ICONS.ordering,
+      slides: [
+        {
+          type: 'card', theme: 'cream', title: 'Pick your premixes',
+          html: `<p>Flat ₹120 per pack. No minimum order — even one bottle is fine.</p>`
+        },
+        {
+          type: 'card', theme: 'maroon', title: 'Share your details',
+          html: `<p>Add your name, a 10-digit mobile number and your delivery address. We receive your order and open WhatsApp with it pre-filled.</p>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'We call to confirm',
+          html: `<p>We confirm the exact delivery charge (Uber Parcel / courier) and share UPI payment details. Pan-India shipping available.</p>`,
+          cta: { label: 'Start your order', scroll: '#catalogue' }
+        }
+      ]
+    },
+    {
+      id: 'products',
+      label: 'Products',
+      icon: FLAVOURA_ICONS.products,
+      slides: [
+        {
+          type: 'card', theme: 'cream', title: 'Gravy bases',
+          html: `<p>Mix with tomato puree or curd for a thick, restaurant-style gravy.</p>
+                 <ul class="story-list"><li>Achaari Premix</li><li>White Gravy</li><li>Red Gravy</li><li>Golden Gravy</li></ul>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'Marinades & tikkas',
+          html: `<p>Marinate, then pan-fry or cook till tender.</p>
+                 <ul class="story-list"><li>Angaara Premix</li><li>Tandoori Premix</li><li>Haryali Premix</li><li>Fish Fry Premix</li></ul>`
+        },
+        {
+          type: 'card', theme: 'maroon', title: 'Eight premixes, one price',
+          html: `<p>Four gravy bases and four marinades. Flat ₹120 a pack.</p>`,
+          cta: { label: 'Browse the range', scroll: '#catalogue' }
+        }
+      ]
+    },
+    {
+      id: 'about',
+      label: 'About Us',
+      icon: drive(IMAGES.round),
+      slides: [
+        {
+          type: 'card', theme: 'cream', title: 'Swaad jo maa ki yaad dilae',
+          html: `<p>Flavoura premixes bring home-cooked, restaurant-style flavour to busy kitchens — hostels, offices and families.</p>`
+        },
+        {
+          type: 'card', theme: 'maroon', title: 'What goes in',
+          html: `<ul class="story-list"><li>Real nuts & whole spices</li><li>Onion, ginger & garlic already blended in</li><li>Salt pre-portioned in every pack</li><li>No preservatives</li><li>100% vegetarian premix</li></ul>`
+        },
+        {
+          type: 'card', theme: 'cream', title: 'Made to be trusted',
+          html: `<p>FSSAI registered<br><strong>22824038000288</strong></p><p>Best stored in a cool, dry place. Lasts up to 6 months.</p>`
+        }
+      ]
+    }
+  ];
+
+  /* ------------------------------------------------------------------------
+     4. SMALL HELPERS
+     ------------------------------------------------------------------------ */
+  const $  = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const money = n => `${CONFIG.currency}${n}`;
+  const clip = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+  const esc = s =>
+    String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const store = {
+    get(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } },
+    set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* private mode */ } }
+  };
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let toastTimer;
+  function toast(message) {
+    const el = $('#toast');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('is-visible'), 2200);
+  }
+
+  /* ------------------------------------------------------------------------
+     5. CART
+     ------------------------------------------------------------------------ */
+  const cart = new Map(); // productId -> qty
+  let orderPlaced = false;
+
+  function loadCart() {
+    const saved = store.get(CONFIG.storageKey);
+    if (!saved || typeof saved !== 'object') return;
+    Object.entries(saved).forEach(([id, qty]) => {
+      if (BY_ID[id] && Number.isInteger(qty) && qty > 0) cart.set(id, Math.min(qty, CONFIG.maxQtyPerItem));
+    });
+  }
+
+  function persistCart() {
+    store.set(CONFIG.storageKey, Object.fromEntries(cart));
+  }
+
+  function totals() {
+    const lines = [];
+    let qty = 0;
+    let amount = 0;
+    cart.forEach((q, id) => {
+      const product = BY_ID[id];
+      const lineAmount = q * product.price;
+      lines.push({ product, qty: q, amount: lineAmount });
+      qty += q;
+      amount += lineAmount;
+    });
+    return { lines, qty, amount };
+  }
+
+  function changeQty(id, delta) {
+    if (!BY_ID[id]) return;
+    const next = Math.max(0, Math.min(CONFIG.maxQtyPerItem, (cart.get(id) || 0) + delta));
+    if (next === 0) cart.delete(id); else cart.set(id, next);
+    persistCart();
+    renderBuyAction(id, delta > 0);
+    renderCartChrome();
+    if (delta > 0 && next === 1) toast(`${BY_ID[id].name} added to cart`);
+  }
+
+  function clearCart() {
+    const ids = Array.from(cart.keys());
+    cart.clear();
+    persistCart();
+    ids.forEach(id => renderBuyAction(id));
+    renderCartChrome();
+  }
+
+  function renderBuyAction(id, bump = false) {
+    const host = $(`[data-action-for="${id}"]`);
+    if (!host) return;
+    const qty = cart.get(id) || 0;
+    const name = esc(BY_ID[id].name);
+    host.innerHTML = qty > 0
+      ? `<div class="qty-control${bump ? ' is-bump' : ''}">
+           <button type="button" class="qty-btn" data-dec="${id}" aria-label="Remove one ${name}">−</button>
+           <span class="qty-value" aria-live="polite">${qty}</span>
+           <button type="button" class="qty-btn" data-inc="${id}" aria-label="Add one ${name}">+</button>
+         </div>`
+      : `<button type="button" class="btn-add" data-add="${id}">Add to cart</button>`;
+  }
+
+  function renderCartChrome() {
+    const { qty, amount } = totals();
+    const bar = $('#cartBar');
+    const badge = $('#headerCartCount');
+    $('#cartBarItems').textContent = `${qty} item${qty === 1 ? '' : 's'} added`;
+    $('#cartBarTotal').textContent = `Item total: ${money(amount)}`;
+    bar.classList.toggle('is-active', qty > 0);
+    bar.setAttribute('aria-hidden', qty > 0 ? 'false' : 'true');
+    document.body.classList.toggle('has-cart', qty > 0);
+    if (badge) {
+      badge.textContent = qty;
+      badge.hidden = qty === 0;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     6. CATALOGUE RENDER + FILTER
+     ------------------------------------------------------------------------ */
+  function productCard(p) {
+    const heat = HEAT[p.heat];
+    const dots = [1, 2, 3].map(n => `<i class="${n <= heat.level ? 'on' : ''}"></i>`).join('');
+    const method = p.method
+      .map(m => `<li>${m.label ? `<strong>${esc(m.label)}</strong> ` : ''}${esc(m.text)}</li>`)
+      .join('');
+    return `
+      <article class="product-card" data-category="${p.category}" data-id="${p.id}">
+        <div class="product-media skel" data-title="${esc(p.title)}">
+          <img src="${esc(p.img)}" alt="${esc(p.title)} instant premix pack" width="600" height="600" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <span class="heat-badge"><span class="heat-dots" aria-hidden="true">${dots}</span>${heat.label}</span>
+        </div>
+        <div class="product-body">
+          <div class="product-head">
+            <h3 class="product-title">${esc(p.title)}</h3>
+            <p class="price"><strong>${money(p.price)}</strong><span>${esc(p.size)} pack</span></p>
+          </div>
+          <p class="product-desc">${esc(p.desc)}</p>
+          <div class="method">
+            <p class="method-title">How to cook (500g)</p>
+            <ul>${method}</ul>
+          </div>
+          <div class="product-actions">
+            <button type="button" class="btn-ingredients" data-ingredients="${p.id}">Ingredients</button>
+            <div class="buy-action" data-action-for="${p.id}"></div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function renderCatalogue() {
+    const grid = $('#productGrid');
+    grid.innerHTML = PRODUCTS.map(productCard).join('');
+    PRODUCTS.forEach(p => renderBuyAction(p.id));
+  }
+
+  function applyFilter(filter) {
+    $$('[data-filter]').forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.filter === filter)));
+    $$('.product-card').forEach(card => {
+      card.hidden = !(filter === 'all' || card.dataset.category === filter);
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     7. MODALS (ingredients + checkout) with focus handling
+     ------------------------------------------------------------------------ */
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  let activeLayer = null;   // modal or story viewer currently on top
+  let lastFocused = null;
+
+  function openLayer(el, focusSel) {
+    lastFocused = document.activeElement;
+    activeLayer = el;
+    const t = $('#toast');
+    if (t) t.classList.remove('is-visible');
+    el.classList.add('is-open');
+    el.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('layer-open');
+    const target = (focusSel && $(focusSel, el)) || $(FOCUSABLE, el);
+    if (target) setTimeout(() => target.focus({ preventScroll: true }), 30);
+  }
+
+  function closeLayer(el = activeLayer) {
+    if (!el) return;
+    el.classList.remove('is-open');
+    el.setAttribute('aria-hidden', 'true');
+    if (activeLayer === el) activeLayer = null;
+    if (!activeLayer && !openSheet()) document.body.classList.remove('layer-open');
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus({ preventScroll: true });
+    if (el.id === 'checkoutModal' && orderPlaced) {
+      orderPlaced = false;
+      clearCart();
+      showCheckoutForm();
+      $('#checkoutForm').reset();
+    }
+  }
+
+  function trapTab(e) {
+    if (e.key !== 'Tab' || !activeLayer) return;
+    const items = $$(FOCUSABLE, activeLayer).filter(n => n.offsetParent !== null);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function openIngredients(id) {
+    const p = BY_ID[id];
+    if (!p) return;
+    $('#ingredientsTitle').textContent = p.name;
+    $('#ingredientsText').textContent = p.ingredients;
+    openLayer($('#ingredientsModal'), '.modal-ok');
+  }
+
+  /* ------------------------------------------------------------------------
+     8. CHECKOUT — summary, strict validation, Discord webhook, WhatsApp
+     ------------------------------------------------------------------------ */
+  const PHONE_PATTERN = /^[6-9]\d{9}$/;
+  let lastWhatsappUrl = '';
+  let submitting = false;
+
+  function showCheckoutForm() {
+    $('#checkoutFormView').hidden = false;
+    $('#checkoutSuccessView').hidden = true;
+    clearErrors();
+  }
+
+  function renderCheckoutSummary() {
+    const { lines, qty, amount } = totals();
+    const rows = lines
+      .map(l => `<div class="cart-row"><span>${esc(l.product.name)} × ${l.qty}</span><span>${money(l.amount)}</span></div>`)
+      .join('');
+    $('#cartBreakdown').innerHTML =
+      rows +
+      `<div class="cart-row cart-total"><span>Items total (${qty} pack${qty === 1 ? '' : 's'})</span><span>${money(amount)}</span></div>`;
+  }
+
+  function openCheckout() {
+    if (cart.size === 0) {
+      toast('Your cart is empty. Add a premix to get started.');
+      $('#catalogue').scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      return;
+    }
+    showCheckoutForm();
+    renderCheckoutSummary();
+    openLayer($('#checkoutModal'), '#custName');
+  }
+
+  const FIELD_RULES = {
+    custName: {
+      error: 'errName',
+      test: v => v.length >= 2,
+      message: 'Enter your full name.'
+    },
+    custPhone: {
+      error: 'errPhone',
+      test: v => PHONE_PATTERN.test(v),
+      message: 'Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9.'
+    },
+    custAddress: {
+      error: 'errAddress',
+      test: v => v.length >= 10,
+      message: 'Enter your complete address with house/flat, street and pincode.'
+    }
+  };
+
+  function setFieldError(inputId, message) {
+    const rule = FIELD_RULES[inputId];
+    const input = $('#' + inputId);
+    const err = $('#' + rule.error);
+    err.textContent = message || '';
+    input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    input.closest('.field').classList.toggle('has-error', Boolean(message));
+  }
+
+  function clearErrors() {
+    Object.keys(FIELD_RULES).forEach(id => setFieldError(id, ''));
+  }
+
+  function validateForm() {
+    let firstInvalid = null;
+    Object.entries(FIELD_RULES).forEach(([id, rule]) => {
+      const value = $('#' + id).value.trim();
+      const ok = rule.test(value);
+      setFieldError(id, ok ? '' : rule.message);
+      if (!ok && !firstInvalid) firstInvalid = $('#' + id);
+    });
+    if (firstInvalid) firstInvalid.focus();
+    return !firstInvalid;
+  }
+
+  function buildOrder() {
+    const name = $('#custName').value.trim();
+    const phone = $('#custPhone').value.trim();
+    const address = $('#custAddress').value.trim();
+    const { lines, qty, amount } = totals();
+    let itemsSummary = '';
+    lines.forEach(l => { itemsSummary += `• ${l.product.name} x ${l.qty} = ${money(l.amount)}\n`; });
+    return { name, fullPhone: `+91 ${phone}`, address, itemsSummary, totalQty: qty, subtotal: amount };
+  }
+
+  function sendToDiscord(o) {
+    // Same "Spice Bot" payload structure as the original site.
+    const payload = {
+      username: 'Spice Bot',
+      embeds: [{
+        title: '🛒 NEW FLAVOURA ORDER REQUEST',
+        color: CONFIG.discordColor,
+        fields: [
+          { name: 'Customer Name', value: clip(o.name, 1024), inline: true },
+          { name: 'Phone Number', value: o.fullPhone, inline: true },
+          { name: 'Delivery Address', value: clip(o.address, 1024) },
+          { name: 'Items Ordered', value: clip(o.itemsSummary || 'None', 1024) },
+          { name: 'Total Packs', value: `${o.totalQty} packs`, inline: true },
+          { name: 'Subtotal', value: money(o.subtotal), inline: true }
+        ],
+        timestamp: new Date().toISOString()
+      }]
+    };
+    // keepalive lets the request finish even while WhatsApp takes over the tab
+    return fetch(CONFIG.discordWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(err => console.error('Spice Bot Discord Webhook Error:', err));
+  }
+
+  function buildWhatsappUrl(o) {
+    const message =
+      `*NEW FLAVOURA ORDER REQUEST*\n\n` +
+      `*Customer Name:* ${o.name}\n` +
+      `*Phone:* ${o.fullPhone}\n` +
+      `*Delivery Address:* ${o.address}\n\n` +
+      `*ITEMS ORDERED:*\n${o.itemsSummary}\n` +
+      `*Item Subtotal (${o.totalQty} packs):* ${money(o.subtotal)}\n\n` +
+      `Please call me back to confirm order & total delivery charge.`;
+    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }
+
+  function openWhatsapp(url) {
+    const w = window.open(url, '_blank');
+    if (!w) window.location.href = url; // popup blocked → same-tab fallback
+  }
+
+  function submitOrder(e) {
+    e.preventDefault();
+    if (submitting || !validateForm()) return;
+    submitting = true;
+    const btn = $('#submitOrder');
+    btn.disabled = true;
+
+    const order = buildOrder();
+    sendToDiscord(order);                 // fire and forget (keepalive)
+    lastWhatsappUrl = buildWhatsappUrl(order);
+    openWhatsapp(lastWhatsappUrl);        // opened in the same tick as the click
+
+    orderPlaced = true;
+    $('#successName').textContent = order.name.split(/\s+/)[0];
+    $('#checkoutFormView').hidden = true;
+    $('#checkoutSuccessView').hidden = false;
+    submitting = false;
+    btn.disabled = false;
+    $('#reopenWhatsapp').focus();
+  }
+
+  /* ------------------------------------------------------------------------
+     9. STORY HIGHLIGHTS — rail + full-screen viewer
+     ------------------------------------------------------------------------ */
+  const viewedStories = new Set(store.get(CONFIG.viewedKey) || []);
+
+  function renderHighlights() {
+    $('#highlightRail').innerHTML = STORIES.map(s => {
+      const icon = s.iconHtml
+        ? `<span class="highlight-icon highlight-icon--svg">${s.iconHtml}</span>`
+        : `<span class="highlight-icon"><img src="${esc(s.icon)}" alt="" width="64" height="64" loading="eager" decoding="async" referrerpolicy="no-referrer"></span>`;
+      return `<button type="button" class="highlight${viewedStories.has(s.id) ? ' is-viewed' : ''}" data-story="${s.id}" role="listitem" aria-label="Open story: ${esc(s.label)}">
+                <span class="highlight-ring">${icon}</span>
+                <span class="highlight-label">${esc(s.label)}</span>
+              </button>`;
+    }).join('');
+  }
+
+  function renderReviewGallery() {
+    const host = $('#reviewGallery');
+    if (!host) return;
+    host.innerHTML = reviewSlides.map((s, i) =>
+      `<button type="button" class="review-thumb skel" data-story="reviews" data-start="${i}" aria-label="Open customer review ${i + 1} of ${reviewSlides.length}">
+         <img src="${esc(s.src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+       </button>`).join('');
+  }
+
+  const viewer = {
+    root: null, stage: null, bars: null, title: null,
+    story: null, index: 0, userPaused: false, holdPaused: false, holdTimer: null, holding: false
+  };
+
+  function buildViewer() {
+    const root = $('#storyViewer');
+    viewer.root = root;
+    viewer.stage = $('.story-stage', root);
+    viewer.bars = $('.story-bars', root);
+    viewer.title = $('.story-title', root);
+  }
+
+  function isPaused() { return viewer.userPaused || viewer.holdPaused; }
+
+  function syncPause() {
+    viewer.root.classList.toggle('is-paused', isPaused());
+    const btn = $('[data-story-pause]', viewer.root);
+    btn.setAttribute('aria-pressed', String(viewer.userPaused));
+    btn.setAttribute('aria-label', viewer.userPaused ? 'Play story' : 'Pause story');
+  }
+
+  function openStory(id, start = 0) {
+    const story = STORIES.find(s => s.id === id);
+    if (!story) return;
+    viewer.story = story;
+    viewer.index = Math.max(0, Math.min(start, story.slides.length - 1));
+    viewer.userPaused = reducedMotion.matches; // don't autoplay for reduced-motion users
+    viewer.holdPaused = false;
+    viewer.title.textContent = story.label;
+    viewer.bars.innerHTML = story.slides.map(() => '<span class="story-bar"><i></i></span>').join('');
+    viewedStories.add(id);
+    store.set(CONFIG.viewedKey, Array.from(viewedStories));
+    $$(`.highlight[data-story="${id}"]`).forEach(n => n.classList.add('is-viewed'));
+    renderSlide();
+    openLayer(viewer.root, '[data-story-close]');
+  }
+
+  function renderSlide() {
+    const { story, index } = viewer;
+    const slide = story.slides[index];
+    const duration = CONFIG.storyDurationMs[slide.type] || 6000;
+
+    viewer.stage.dataset.type = slide.type;
+    viewer.stage.dataset.theme = slide.theme || '';
+    if (slide.type === 'image') {
+      viewer.stage.querySelector('.story-content').innerHTML =
+        `<img class="story-image" src="${esc(slide.src)}" alt="${esc(slide.alt || '')}" draggable="false" referrerpolicy="no-referrer">`;
+    } else {
+      const cta = slide.cta
+        ? (slide.cta.href
+            ? `<a class="btn btn-gold story-cta" href="${esc(slide.cta.href)}" target="_blank" rel="noopener">${esc(slide.cta.label)}</a>`
+            : `<button type="button" class="btn btn-gold story-cta" data-story-scroll="${esc(slide.cta.scroll)}">${esc(slide.cta.label)}</button>`)
+        : '';
+      viewer.stage.querySelector('.story-content').innerHTML =
+        `<div class="story-card"><h3>${esc(slide.title)}</h3><div class="story-body">${slide.html}</div>${cta}</div>`;
+    }
+
+    // progress bars
+    $$('.story-bar', viewer.bars).forEach((bar, i) => {
+      bar.classList.toggle('is-done', i < index);
+      bar.classList.remove('is-active');
+      const fill = $('i', bar);
+      fill.style.animation = 'none';
+      fill.onanimationend = null;
+      if (i === index) {
+        void bar.offsetWidth; // restart animation
+        bar.classList.add('is-active');
+        fill.style.animation = '';
+        fill.style.setProperty('--story-dur', `${duration}ms`);
+        fill.onanimationend = nextSlide;
+      }
+    });
+    syncPause();
+
+    // warm the next image
+    const upcoming = story.slides[index + 1];
+    if (upcoming && upcoming.type === 'image') { const im = new Image(); im.src = upcoming.src; }
+  }
+
+  function nextSlide() {
+    if (!viewer.story) return;
+    if (viewer.index < viewer.story.slides.length - 1) { viewer.index += 1; renderSlide(); }
+    else closeStory();
+  }
+
+  function prevSlide() {
+    if (viewer.index > 0) viewer.index -= 1;
+    renderSlide();
+  }
+
+  function closeStory() {
+    viewer.story = null;
+    closeLayer(viewer.root);
+  }
+
+  function bindViewer() {
+    const stage = viewer.stage;
+
+    const endHold = () => {
+      clearTimeout(viewer.holdTimer);
+      if (viewer.holding) { viewer.holding = false; viewer.holdPaused = false; syncPause(); }
+    };
+
+    stage.addEventListener('pointerdown', e => {
+      if (e.target.closest('a, button')) return;
+      viewer.holdTimer = setTimeout(() => { viewer.holding = true; viewer.holdPaused = true; syncPause(); }, 220);
+    });
+    stage.addEventListener('pointerup', e => {
+      clearTimeout(viewer.holdTimer);
+      if (e.target.closest('a, button')) return;
+      if (viewer.holding) { endHold(); return; }
+      const r = stage.getBoundingClientRect();
+      (e.clientX - r.left) < r.width * 0.3 ? prevSlide() : nextSlide();
+    });
+    stage.addEventListener('pointercancel', endHold);
+    stage.addEventListener('pointerleave', endHold);
+
+    // swipe down to close on touch devices
+    let touchStart = null;
+    stage.addEventListener('touchstart', e => { touchStart = e.touches[0]; }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      if (!touchStart) return;
+      const t = e.changedTouches[0];
+      if (t.clientY - touchStart.clientY > 110 && Math.abs(t.clientX - touchStart.clientX) < 70) closeStory();
+      touchStart = null;
+    }, { passive: true });
+
+    $('[data-story-pause]', viewer.root).addEventListener('click', () => {
+      viewer.userPaused = !viewer.userPaused;
+      syncPause();
+    });
+    $('[data-story-prev]', viewer.root).addEventListener('click', prevSlide);
+    $('[data-story-next]', viewer.root).addEventListener('click', nextSlide);
+    $$('[data-story-close]', viewer.root).forEach(b => b.addEventListener('click', closeStory));
+    viewer.root.addEventListener('click', e => { if (e.target === viewer.root) closeStory(); });
+  }
+
+  /* ------------------------------------------------------------------------
+     10. EVENT WIRING
+     ------------------------------------------------------------------------ */
+  function onDocumentClick(e) {
+    const t = e.target.closest('[data-add],[data-inc],[data-dec],[data-ingredients],[data-open-checkout],[data-close-layer],[data-filter],[data-story],[data-story-scroll],[data-faq],[data-reopen-whatsapp],[data-finish-order],[data-close-sheet]');
+    if (!t) {
+      // click on a modal backdrop closes it
+      const layer = e.target.classList && e.target.classList.contains('modal') ? e.target : null;
+      if (layer) closeLayer(layer);
+      return;
+    }
+    const d = t.dataset;
+    if (d.add)        changeQty(d.add, 1);
+    else if (d.inc)   changeQty(d.inc, 1);
+    else if (d.dec)   changeQty(d.dec, -1);
+    else if (d.ingredients) openIngredients(d.ingredients);
+    else if ('openCheckout' in d) openCheckout();
+    else if ('closeLayer' in d) closeLayer(t.closest('.modal'));
+    else if (d.filter) applyFilter(d.filter);
+    else if (d.story) openStory(d.story, Number(d.start) || 0);
+    else if (d.storyScroll) {
+      closeStory();
+      const target = $(d.storyScroll);
+      if (target) setTimeout(() => target.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth' }), 60);
+    }
+    else if (d.faq !== undefined) toggleFaq(t);
+    else if ('reopenWhatsapp' in d) openWhatsapp(lastWhatsappUrl);
+    else if ('finishOrder' in d) closeLayer($('#checkoutModal'));
+    else if ('closeSheet' in d) closeSheet();
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const willOpen = btn.getAttribute('aria-expanded') !== 'true';
+    $$('.faq-item').forEach(i => {
+      i.classList.remove('is-open');
+      $('.faq-q', i).setAttribute('aria-expanded', 'false');
+    });
+    if (willOpen) {
+      item.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape' && openSheet()) { e.preventDefault(); closeSheet(); return; }
+    if (e.key === 'Tab') return openSheet() ? undefined : trapTab(e);
+    if (!activeLayer) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      activeLayer === viewer.root ? closeStory() : closeLayer(activeLayer);
+    } else if (activeLayer === viewer.root) {
+      if (e.key === 'ArrowRight') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+    }
+  }
+
+  function bindForm() {
+    const form = $('#checkoutForm');
+    form.addEventListener('submit', submitOrder);
+    const phone = $('#custPhone');
+    phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 10); });
+    Object.keys(FIELD_RULES).forEach(id => {
+      $('#' + id).addEventListener('blur', () => {
+        const v = $('#' + id).value.trim();
+        if (v) setFieldError(id, FIELD_RULES[id].test(v) ? '' : FIELD_RULES[id].message);
+      });
+      $('#' + id).addEventListener('input', () => {
+        if ($('#' + id).getAttribute('aria-invalid') === 'true' && FIELD_RULES[id].test($('#' + id).value.trim())) setFieldError(id, '');
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     11. INIT
+     ------------------------------------------------------------------------ */
+  /* ------------------------------------------------------------------------
+     Images: shimmer while loading, retry Drive images once, show a label if they fail
+     ------------------------------------------------------------------------ */
+  function bindImages() {
+    const retry = img => {
+      const m = (img.currentSrc || img.src).match(/googleusercontent\.com\/d\/([^=/?&]+)/);
+      if (m && !img.dataset.retry) {
+        img.dataset.retry = '1';
+        img.src = `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1600`;
+        return true;
+      }
+      return false;
+    };
+    const mark = (img, ok) => {
+      const box = img.closest('.skel');
+      if (box) box.classList.add(ok ? 'is-loaded' : 'is-failed');
+    };
+    document.addEventListener('load', e => { if (e.target.tagName === 'IMG') mark(e.target, true); }, true);
+    document.addEventListener('error', e => { if (e.target.tagName === 'IMG' && !retry(e.target)) mark(e.target, false); }, true);
+    $$('img').forEach(img => {
+      if (img.getAttribute('loading') === 'lazy' || !img.complete) return;
+      if (img.naturalWidth) mark(img, true);
+      else if (!retry(img)) mark(img, false);
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     Policy pages (Privacy / Terms / Refunds) live inside this file: #privacy, #terms, #refunds
+     ------------------------------------------------------------------------ */
+  const SHEETS = ['privacy', 'terms', 'refunds'];
+  const openSheet = () => $('.sheet.is-open');
+
+  function route() {
+    const id = location.hash.slice(1);
+    const target = SHEETS.includes(id) ? $(`.sheet[data-sheet="${id}"]`) : null;
+    $$('.sheet').forEach(s => {
+      const on = s === target;
+      s.classList.toggle('is-open', on);
+      s.setAttribute('aria-hidden', on ? 'false' : 'true');
+    });
+    if (target) {
+      target.scrollTop = 0;
+      document.body.classList.add('layer-open');
+      const back = $('.sheet-back', target);
+      if (back) setTimeout(() => back.focus({ preventScroll: true }), 30);
+    } else if (!activeLayer) {
+      document.body.classList.remove('layer-open');
+    }
+  }
+
+  function closeSheet() {
+    history.replaceState(null, '', location.pathname + location.search);
+    route();
+  }
+
+  function init() {
+    bindImages();
+    loadCart();
+    renderHighlights();
+    renderCatalogue();
+    renderReviewGallery();
+    renderCartChrome();
+    applyFilter('all');
+    buildViewer();
+    bindViewer();
+    bindForm();
+    window.addEventListener('hashchange', route);
+    route();
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onKeydown);
+
+    const year = $('#year');
+    if (year) year.textContent = new Date().getFullYear();
+
+    // Re-sync if the cart was changed in another tab
+    window.addEventListener('storage', e => {
+      if (e.key !== CONFIG.storageKey) return;
+      cart.clear();
+      loadCart();
+      PRODUCTS.forEach(p => renderBuyAction(p.id));
+      renderCartChrome();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+  </script>
 </body>
 </html>

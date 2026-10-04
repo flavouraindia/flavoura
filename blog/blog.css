@@ -39,4 +39,4 @@ blockquote{border-left:4px solid var(--saffron);background:var(--amber-soft);pad
 .cta h2{color:#fff;margin:0 0 .4rem;font-size:1.4rem}.cta p{margin-bottom:1rem;opacity:.92}
 footer{background:var(--charcoal);color:#e8dfd6;text-align:center;padding:2rem var(--pad);font-size:.88rem}
 footer a{color:#FFD27A;font-weight:600;margin:0 .6rem}
-@media(max-width:560px){header nav a.hide{display:none}}
+@media(max-width:560px){header nav{gap:.8rem;font-size:.84rem}.btn{padding:.65rem 1.05rem;font-size:.84rem}}

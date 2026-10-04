@@ -23,7 +23,7 @@
 <link rel="canonical" href="https://flavouraindia.in/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   
   <!-- Vercel Web Analytics -->
   <script>
@@ -63,6 +63,7 @@
 
       --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
 
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
       --shadow-lift: 0 22px 44px -14px rgba(158, 27, 33, 0.28);
@@ -266,10 +267,10 @@
     /* ---------- SECTION HEADERS ---------- */
     .section-header { text-align: center; margin-bottom: 1.8rem; }
     .section-header h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(1.7rem, 4.6vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.025em;
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4.8vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
       line-height: 1.15;
       color: var(--charcoal);
       margin-bottom: 0.45rem;
@@ -798,6 +799,58 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
+
+    /* ---------- INSTAGRAM FOLLOW POPUP ---------- */
+    .follow-card { position: relative; max-width: 420px; padding-top: 2.2rem; text-align: center; }
+    .follow-card:focus { outline: none; }
+    .follow-card h3 { margin: 0 1.4rem 0.7rem; font-size: 1.5rem; line-height: 1.25; }
+    .follow-text { margin-bottom: 1.4rem; font-size: 0.98rem; line-height: 1.6; color: var(--muted); }
+    .follow-x {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: var(--cream-2);
+      color: var(--muted);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color .2s ease, color .2s ease;
+    }
+    .follow-x:hover { background: var(--amber-soft); color: var(--crimson); }
+    .follow-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #CF2B32, var(--crimson-dark));
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 14px 24px -10px rgba(158, 27, 33, .85);
+      transition: transform .15s ease, filter .2s ease;
+    }
+    .follow-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .follow-btn:active { transform: scale(.98); }
+    .follow-later {
+      margin-top: 0.7rem;
+      padding: 0.6rem 1.2rem;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .follow-later:hover { color: var(--crimson); text-decoration: underline; }
   </style>
   <!-- Google Product & Business Schema -->
 <!-- Complete Flavoura Business, Menu & FAQ Schema -->
@@ -1443,6 +1496,17 @@
     </div>
   </div>
 
+  <!-- INSTAGRAM FOLLOW POPUP (appears 5 seconds after the page loads, once per visit) -->
+  <div class="modal-overlay" id="followModal" role="dialog" aria-modal="true" aria-labelledby="followTitle" aria-hidden="true">
+    <div class="modal-card follow-card" tabindex="-1">
+      <button type="button" class="follow-x" data-follow-close aria-label="Close">&times;</button>
+      <h3 id="followTitle">📸 Join the Flavoura Family!</h3>
+      <p class="follow-text">Follow us on Instagram @myflavoura for quick recipe reels, cooking hacks, and exclusive flash discounts!</p>
+      <a class="follow-btn" href="https://instagram.com/myflavoura" target="_blank" rel="noopener" data-follow-close>Follow @myflavoura</a>
+      <button type="button" class="follow-later" data-follow-close>Maybe Later</button>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT FOR CART, ACCORDION, MODALS & DISCORD WEBHOOK -->
   <script>
     // CART STATE
@@ -1622,6 +1686,48 @@
 
   closeModalDirect('checkoutModal');
 }
+  </script>
+
+  <!-- INSTAGRAM FOLLOW POPUP SCRIPT (separate from the order logic above) -->
+  <script>
+    (function () {
+      var modal = document.getElementById('followModal');
+      if (!modal) return;
+      var KEY = 'flavouraFollowPopupSeen';
+      var shown = false;
+      var lastFocus = null;
+
+      function alreadySeen() { try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+      function markSeen() { try { sessionStorage.setItem(KEY, '1'); } catch (e) {} }
+      function otherModalOpen() { return !!document.querySelector('.modal-overlay.active:not(#followModal)'); }
+
+      function openPopup() {
+        if (shown || alreadySeen()) return;
+        if (otherModalOpen()) { setTimeout(openPopup, 2000); return; } // never interrupt checkout
+        shown = true;
+        markSeen();
+        lastFocus = document.activeElement;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        var card = modal.querySelector('.follow-card');
+        if (card) setTimeout(function () { card.focus({ preventScroll: true }); }, 60);
+      }
+
+      function closePopup() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+      }
+
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal || e.target.closest('[data-follow-close]')) closePopup();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closePopup();
+      });
+
+      setTimeout(openPopup, 5000);
+    })();
   </script>
 
 </body>

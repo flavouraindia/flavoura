@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BYQPF2LLGG"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BYQPF2LLGG');</script>
+<title>Flavoura Blog | Easy Indian Recipes & Instant Cooking Tips</title>
+<meta name="description" content="Quick Indian recipes, restaurant-style gravy tips and zero-prep cooking hacks from Flavoura. Cook better, faster, at home.">
+<link rel="canonical" href="https://myflavoura.in/blog">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1bQzes7jWZVegwderY9BTzVw_b3XUmxdi">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flavoura">
+<meta property="og:url" content="https://myflavoura.in/blog">
+<meta property="og:title" content="Flavoura Blog | Easy Indian Recipes & Cooking Tips">
+<meta property="og:description" content="Quick Indian recipes, restaurant-style gravy tips and zero-prep cooking hacks.">
+<meta property="og:image" content="https://myflavoura.in/og-preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/blog/blog.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Flavoura Blog","url":"https://myflavoura.in/blog","publisher":{"@type":"Organization","name":"Flavoura","url":"https://myflavoura.in/"}}</script>
+</head>
+<body>
+<header>
+  <a href="/"><img src="https://lh3.googleusercontent.com/d/1BOQm9Xw0A_eFbhqlFRYokwxuVke2cYJ3" alt="Flavoura Logo"></a>
+  <nav><a class="hide" href="/">Shop</a><a href="/blog">Blog</a>
+  <a class="btn" href="https://wa.me/919088055818?text=Hi!%20I%20want%20to%20inquire%20about%20Flavoura%20Instant%20Premixes" target="_blank" rel="noopener">Order on WhatsApp</a></nav>
+</header>
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">The Flavoura Journal</span>
+    <h1>Cook better. Cook faster.</h1>
+    <p>Recipes, restaurant-style tricks and zero-prep cooking guides for busy kitchens.</p>
+  </div>
+  <section class="grid" id="posts" aria-label="Latest articles"><p class="meta">Loading articles…</p></section>
+  <noscript><p>Please enable JavaScript to see the article list.</p></noscript>
+</main>
+<footer>
+  <p>© 2026 Flavoura · FSSAI Reg No: 22824038000288</p>
+  <p style="margin-top:.6rem"><a href="/">Home</a><a href="/blog">Blog</a><a href="https://instagram.com/myflavoura" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@arshiaahmad" target="_blank" rel="noopener">YouTube</a></p>
+</footer>
+<script>
+/* Reads /blog/posts.json and builds a card for every post, newest first. */
+fetch('/blog/posts.json').then(r=>r.json()).then(function(posts){
+  posts.sort(function(a,b){return b.date.localeCompare(a.date)});
+  var box=document.getElementById('posts'); box.textContent='';
+  posts.forEach(function(p){
+    var a=document.createElement('a'); a.className='card'; a.href='/blog/'+p.slug;
+    [['tag',p.tag,'span'],['','' ,'h2'],['',p.excerpt,'p'],['meta',p.date_h+' · '+p.read,'span'],['more','Read article →','span']].forEach(function(x){
+      var e=document.createElement(x[2]); if(x[0])e.className=x[0]; e.textContent=x[2]==='h2'?p.title:x[1]; a.appendChild(e);
+    });
+    box.appendChild(a);
+  });
+}).catch(function(){document.getElementById('posts').innerHTML='<p>Articles could not be loaded. Please refresh.</p>';});
+</script>
+</body>
+</html>

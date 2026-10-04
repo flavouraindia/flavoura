@@ -34,7 +34,6 @@
   <style>
     /* ==========================================================================
        FLAVOURA — bright, warm, premium D2C redesign
-       (Visual styling only. All markup, text, images and JavaScript are unchanged.)
        ========================================================================== */
     :root {
       --crimson: #C0262D;
@@ -306,7 +305,6 @@
       transition: transform .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s ease, border-color .3s ease;
     }
 
-    /* Product photos are 1:1: true square box, photo fills it, never stretched */
     .product-img {
       position: relative;
       width: 100%;
@@ -368,7 +366,6 @@
     .quick-method-steps span { display: block; }
     .quick-method-steps span + span { margin-top: 0.35rem; }
 
-    /* price row + two buttons side by side */
     .product-action {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -557,7 +554,7 @@
       color: rgba(255, 233, 199, .85);
     }
 
-    /* ---------- STICKY BOTTOM CART BAR (appears once something is in the cart) ---------- */
+    /* ---------- STICKY BOTTOM CART BAR ---------- */
     .sticky-cart-bar {
       position: fixed;
       left: 12px;
@@ -730,7 +727,7 @@
       border: 1.5px solid var(--line);
       border-radius: 12px;
       font-family: var(--font-body);
-      font-size: 1rem; /* 16px stops iOS zooming on focus */
+      font-size: 1rem;
       color: var(--charcoal);
       transition: border-color .2s ease, box-shadow .2s ease;
     }
@@ -783,7 +780,6 @@
       .sticky-cart-bar { left: 10px; right: 10px; padding: 0.6rem 0.6rem 0.6rem 1rem; border-radius: 20px; }
       .btn-checkout { padding: 0.7rem 1.1rem; font-size: 0.88rem; }
 
-      /* bottom-sheet style modals on phones */
       .modal-overlay { align-items: flex-end; padding: 0; }
       .modal-card {
         max-width: none;
@@ -852,8 +848,8 @@
     }
     .follow-later:hover { color: var(--crimson); text-decoration: underline; }
   </style>
-  <!-- Google Product & Business Schema -->
-<!-- Complete Flavoura Business, Menu & FAQ Schema -->
+
+  <!-- Complete Flavoura Business, Menu & FAQ Schema -->
 <script type="application/ld+json">
 [
   {
@@ -990,7 +986,8 @@
   }
 ]
 </script>
-  <!-- Open Graph / WhatsApp / Facebook Preview -->
+
+<!-- Open Graph / WhatsApp / Facebook Preview -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://myflavoura.in/">
 <meta property="og:title" content="Flavoura | Restaurant-Style Meals in 15 Mins">
@@ -1444,6 +1441,12 @@
     </div>
     <div class="footer-bottom">
       <p>© 2026 Flavoura. All Rights Reserved.</p>
+      <!-- Policy Links Footer -->
+      <div class="footer-policies" style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+        <a href="#refunds" onclick="openPolicyModal('refunds-modal')" style="color: inherit; text-decoration: underline; margin: 0 10px;">Refund Policy</a> |
+        <a href="#privacy" onclick="openPolicyModal('privacy-modal')" style="color: inherit; text-decoration: underline; margin: 0 10px;">Privacy Policy</a> |
+        <a href="#shipping" onclick="openPolicyModal('shipping-modal')" style="color: inherit; text-decoration: underline; margin: 0 10px;">Shipping Policy</a>
+      </div>
     </div>
   </footer>
 
@@ -1484,21 +1487,21 @@
           <input type="text" id="custName" required placeholder="e.g. Rahul Sharma">
         </div>
         <div class="form-group">
-  <label>Phone Number (10 Digits) *</label>
-  <div class="phone-input-wrap">
-    <span class="phone-prefix">+91</span>
-    <input 
-      type="tel" 
-      id="custPhone" 
-      required 
-      placeholder="9830012345" 
-      maxlength="10" 
-      pattern="[6-9][0-9]{9}"
-      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-      title="Please enter a valid 10-digit Indian mobile number."
-    >
-  </div>
-</div>
+          <label>Phone Number (10 Digits) *</label>
+          <div class="phone-input-wrap">
+            <span class="phone-prefix">+91</span>
+            <input 
+              type="tel" 
+              id="custPhone" 
+              required 
+              placeholder="9830012345" 
+              maxlength="10" 
+              pattern="[6-9][0-9]{9}"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              title="Please enter a valid 10-digit Indian mobile number."
+            >
+          </div>
+        </div>
         <div class="form-group">
           <label>Complete Delivery Address *</label>
           <textarea id="custAddress" rows="3" required placeholder="Flat No, House Name, Street, Landmark, Pincode"></textarea>
@@ -1511,7 +1514,7 @@
     </div>
   </div>
 
-  <!-- INSTAGRAM FOLLOW POPUP (appears 5 seconds after the page loads, once per visit) -->
+  <!-- INSTAGRAM FOLLOW POPUP -->
   <div class="modal-overlay" id="followModal" role="dialog" aria-modal="true" aria-labelledby="followTitle" aria-hidden="true">
     <div class="modal-card follow-card" tabindex="-1">
       <button type="button" class="follow-x" data-follow-close aria-label="Close">&times;</button>
@@ -1519,6 +1522,43 @@
       <p class="follow-text">Follow us on Instagram @myflavoura for quick recipe reels, cooking hacks, and exclusive flash discounts!</p>
       <a class="follow-btn" href="https://instagram.com/myflavoura" target="_blank" rel="noopener" data-follow-close>Follow @myflavoura</a>
       <button type="button" class="follow-later" data-follow-close>Maybe Later</button>
+    </div>
+  </div>
+
+  <!-- REFUND POLICY MODAL -->
+  <div id="refunds-modal" class="modal-overlay" style="display: none; opacity: 1; visibility: visible;">
+    <div class="modal-card" style="background: #FFFDF9; padding: 24px; border-radius: 16px; max-width: 500px; margin: auto; position: relative;">
+      <button onclick="closePolicyModal('refunds-modal')" style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 style="color: #C0262D; margin-bottom: 12px;">Return & Refund Policy</h3>
+      <p><strong>All Sales Are Final</strong></p>
+      <p>Due to strict food safety and hygiene standards, Flavoura does not accept returns, exchanges, or issue refunds once an order has been dispatched.</p>
+      <p><strong>Damaged or Incorrect Items:</strong></p>
+      <p>If you receive a damaged package or wrong item, please contact us on WhatsApp within <strong>24 hours</strong> of delivery with a quick unboxing video and your order details for a replacement.</p>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div id="privacy-modal" class="modal-overlay" style="display: none; opacity: 1; visibility: visible;">
+    <div class="modal-card" style="background: #FFFDF9; padding: 24px; border-radius: 16px; max-width: 500px; margin: auto; position: relative;">
+      <button onclick="closePolicyModal('privacy-modal')" style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 style="color: #C0262D; margin-bottom: 12px;">Privacy Policy</h3>
+      <p>At Flavoura, we respect your privacy. We only collect essential information required to deliver your orders:</p>
+      <ul style="margin-left: 20px; margin-top: 8px; margin-bottom: 12px;">
+        <li>Name, delivery address, and phone number</li>
+        <li>Order items and transaction notes</li>
+      </ul>
+      <p>We do not sell, trade, or share your personal information with third parties.</p>
+    </div>
+  </div>
+
+  <!-- SHIPPING POLICY MODAL -->
+  <div id="shipping-modal" class="modal-overlay" style="display: none; opacity: 1; visibility: visible;">
+    <div class="modal-card" style="background: #FFFDF9; padding: 24px; border-radius: 16px; max-width: 500px; margin: auto; position: relative;">
+      <button onclick="closePolicyModal('shipping-modal')" style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 style="color: #C0262D; margin-bottom: 12px;">Shipping & Delivery</h3>
+      <p><strong>Dispatch:</strong> Orders are freshly packed and dispatched within 24 to 48 hours.</p>
+      <p><strong>Delivery Time:</strong> Deliveries usually take 3 to 7 business days depending on your location across India.</p>
+      <p><strong>Tracking:</strong> Tracking details will be shared directly via WhatsApp once dispatched.</p>
     </div>
   </div>
 
@@ -1632,78 +1672,98 @@
       }
     }
 
+    // POLICY MODAL CONTROLLER
+    function openPolicyModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closePolicyModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.style.display = 'none';
+      history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
+
+    // Auto-open modal if someone visits myflavoura.in/#refunds directly
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash;
+      if (hash === '#refunds') openPolicyModal('refunds-modal');
+      if (hash === '#privacy') openPolicyModal('privacy-modal');
+      if (hash === '#shipping') openPolicyModal('shipping-modal');
+    });
+
     // SUBMIT ORDER WITH DISCORD WEBHOOK LOGGING + WHATSAPP REDIRECT
     async function submitOrder(e) {
-  e.preventDefault();
+      e.preventDefault();
 
-  const name = document.getElementById('custName').value.trim();
-  const rawPhone = document.getElementById('custPhone').value.trim();
-  const address = document.getElementById('custAddress').value.trim();
+      const name = document.getElementById('custName').value.trim();
+      const rawPhone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
 
-  // Strict JS fallback check for Indian Mobile Number
-  const phonePattern = /^[6-9]\d{9}$/;
-  if (!phonePattern.test(rawPhone)) {
-    alert("Please enter a valid 10-digit Indian mobile number.");
-    return;
-  }
+      // Strict JS fallback check for Indian Mobile Number
+      const phonePattern = /^[6-9]\d{9}$/;
+      if (!phonePattern.test(rawPhone)) {
+        alert("Please enter a valid 10-digit Indian mobile number.");
+        return;
+      }
 
-  const fullPhone = `+91 ${rawPhone}`;
+      const fullPhone = `+91 ${rawPhone}`;
 
-  // 1. Build Item Summary
-  let itemsSummary = '';
-  let totalQty = 0;
-  for (let item in cart) {
-    itemsSummary += `• ${item} x ${cart[item]} = ₹${cart[item] * itemPrice}\n`;
-    totalQty += cart[item];
-  }
+      // 1. Build Item Summary
+      let itemsSummary = '';
+      let totalQty = 0;
+      for (let item in cart) {
+        itemsSummary += `• ${item} x ${cart[item]} = ₹${cart[item] * itemPrice}\n`;
+        totalQty += cart[item];
+      }
 
-  // 2. SPICE BOT DISCORD WEBHOOK
-  const discordWebhookUrl = "https://discord.com/api/webhooks/1555527432176672829/rPV4GwhKY_s59OCpvBYFiTufRTnoDbGi7y8ADU6P6vvytNcY263in1TwRtyCpTaTgFne";
+      // 2. SPICE BOT DISCORD WEBHOOK
+      const discordWebhookUrl = "https://discord.com/api/webhooks/1555527432176672829/rPV4GwhKY_s59OCpvBYFiTufRTnoDbGi7y8ADU6P6vvytNcY263in1TwRtyCpTaTgFne";
 
-  const discordPayload = {
-    username: "Spice Bot",
-    embeds: [{
-      title: "🛒 NEW FLAVOURA ORDER REQUEST",
-      color: 12068138, // Flavoura Brand Red
-      fields: [
-        { name: "Customer Name", value: name, inline: true },
-        { name: "Phone Number", value: fullPhone, inline: true },
-        { name: "Delivery Address", value: address },
-        { name: "Items Ordered", value: itemsSummary || "None" },
-        { name: "Total Packs", value: `${totalQty} packs`, inline: true },
-        { name: "Subtotal", value: `₹${totalQty * itemPrice}`, inline: true }
-      ],
-      timestamp: new Date().toISOString()
-    }]
-  };
+      const discordPayload = {
+        username: "Spice Bot",
+        embeds: [{
+          title: "🛒 NEW FLAVOURA ORDER REQUEST",
+          color: 12068138,
+          fields: [
+            { name: "Customer Name", value: name, inline: true },
+            { name: "Phone Number", value: fullPhone, inline: true },
+            { name: "Delivery Address", value: address },
+            { name: "Items Ordered", value: itemsSummary || "None" },
+            { name: "Total Packs", value: `${totalQty} packs`, inline: true },
+            { name: "Subtotal", value: `₹${totalQty * itemPrice}`, inline: true }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
 
-  try {
-    await fetch(discordWebhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(discordPayload)
-    });
-  } catch (err) {
-    console.error("Spice Bot Discord Webhook Error:", err);
-  }
+      try {
+        await fetch(discordWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordPayload)
+        });
+      } catch (err) {
+        console.error("Spice Bot Discord Webhook Error:", err);
+      }
 
-  // 3. WHATSAPP REDIRECT FOR CUSTOMER
-  const message = `*NEW FLAVOURA ORDER REQUEST*\n\n` +
-                  `*Customer Name:* ${name}\n` +
-                  `*Phone:* ${fullPhone}\n` +
-                  `*Delivery Address:* ${address}\n\n` +
-                  `*ITEMS ORDERED:*\n${itemsSummary}\n` +
-                  `*Item Subtotal (${totalQty} packs):* ₹${totalQty * itemPrice}\n\n` +
-                  `Please call me back to confirm order & total delivery charge.`;
+      // 3. WHATSAPP REDIRECT FOR CUSTOMER
+      const message = `*NEW FLAVOURA ORDER REQUEST*\n\n` +
+                      `*Customer Name:* ${name}\n` +
+                      `*Phone:* ${fullPhone}\n` +
+                      `*Delivery Address:* ${address}\n\n` +
+                      `*ITEMS ORDERED:*\n${itemsSummary}\n` +
+                      `*Item Subtotal (${totalQty} packs):* ₹${totalQty * itemPrice}\n\n` +
+                      `Please call me back to confirm order & total delivery charge.`;
 
-  const whatsappUrl = `https://wa.me/919088055818?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, '_blank');
+      const whatsappUrl = `https://wa.me/919088055818?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
 
-  closeModalDirect('checkoutModal');
-}
+      closeModalDirect('checkoutModal');
+    }
   </script>
 
-  <!-- INSTAGRAM FOLLOW POPUP SCRIPT (separate from the order logic above) -->
+  <!-- INSTAGRAM FOLLOW POPUP SCRIPT -->
   <script>
     (function () {
       var modal = document.getElementById('followModal');
@@ -1718,7 +1778,7 @@
 
       function openPopup() {
         if (shown || alreadySeen()) return;
-        if (otherModalOpen()) { setTimeout(openPopup, 2000); return; } // never interrupt checkout
+        if (otherModalOpen()) { setTimeout(openPopup, 2000); return; }
         shown = true;
         markSeen();
         lastFocus = document.activeElement;

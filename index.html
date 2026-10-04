@@ -801,44 +801,142 @@
     }
   </style>
   <!-- Google Product & Business Schema -->
+<!-- Complete Flavoura Business, Menu & FAQ Schema -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FoodBusiness",
-  "name": "Flavoura India",
-  "image": "https://lh3.googleusercontent.com/d/1TNHCex2SNq5V95PPURlBXIl_xxZZWWW-",
-  "@id": "https://flavouraindia.in",
-  "url": "https://flavouraindia.in",
-  "telephone": "+919088055818",
-  "priceRange": "₹120",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Kolkata",
-    "addressRegion": "WB",
-    "addressCountry": "IN"
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "FoodBusiness",
+    "name": "Flavoura India",
+    "image": "https://lh3.googleusercontent.com/d/1TNHCex2SNq5V95PPURlBXIl_xxZZWWW-",
+    "@id": "https://flavouraindia.in",
+    "url": "https://flavouraindia.in",
+    "telephone": "+919088055818",
+    "priceRange": "₹120",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kolkata",
+      "addressRegion": "WB",
+      "addressCountry": "IN"
+    },
+    "hasMenu": {
+      "@type": "Menu",
+      "name": "Instant Premixes",
+      "hasMenuItem": [
+        {
+          "@type": "MenuItem",
+          "name": "Achaari Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Haryali Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Angaara Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Fish Fry Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Tandoori Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "White Gravy Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Red Gravy Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        },
+        {
+          "@type": "MenuItem",
+          "name": "Golden Gravy Premix",
+          "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        }
+      ]
+    }
   },
-  "hasMenu": {
-    "@type": "Menu",
-    "name": "Instant Premixes",
-    "hasMenuItem": [
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
       {
-        "@type": "MenuItem",
-        "name": "Achaari Premix",
-        "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        "@type": "Question",
+        "name": "Do I need to add ginger-garlic paste or onions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, that's the whole specialty! You don't need to chop or saute onions, garlic, or ginger. Everything is blended directly into the premix for zero-prep cooking."
+        }
       },
       {
-        "@type": "MenuItem",
-        "name": "Angaara Premix",
-        "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        "@type": "Question",
+        "name": "Do I need to add salt or extra spices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Salt and whole spices are already pre-portioned in every pack. You don't need to add anything extra, though you can adjust salt to taste if you prefer a bolder flavor."
+        }
       },
       {
-        "@type": "MenuItem",
-        "name": "Tandoori Premix",
-        "offers": { "@type": "Offer", "price": "120", "priceCurrency": "INR" }
+        "@type": "Question",
+        "name": "Will the dish have a gravy or be dry like a kebab/tikka?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It's totally customizable! Adding curd or tomato puree gives you a rich, thick restaurant-style gravy. Prefer a dry starter/tikka? Simply marinate with less liquid and pan-fry!"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to cook a dish?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your meal will be ready within 30 minutes maximum! It's designed for maximum speed without compromising on authentic taste."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who is Flavoura best for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It’s perfect for hostel/college students, busy working professionals, families, or anyone who wants quick, home-cooked gourmet meals—especially on days when the cook skips!"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the spice & heat level across different premixes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Angaara and Tandoori are our spiciest, boldest blends. If you prefer a mild, creamy taste, go for the White Gravy Premix."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the shelf life and how should I store it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Flavoura premixes easily last up to 6 months. Simply store the bottle in a cool, dry place away from direct sunlight."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a minimum order quantity and how does shipping work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There is no minimum order quantity—you can order as few as 1 bottle! Delivery charges are fulfilled by the customer, and we accept all standard digital payment methods (UPI, GPay, Paytm, cards) on WhatsApp."
+        }
       }
     ]
   }
-}
+]
 </script>
 </head>
 <body>

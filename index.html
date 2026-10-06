@@ -115,9 +115,9 @@
     .brand-logo img { height: 44px; width: auto; max-width: 52vw; object-fit: contain; display: block; }
 
     nav { display: flex; gap: 1.2rem; align-items: center; }
-    .nav-link { font-weight: 700; font-size: 0.92rem; color: var(--charcoal); }
-.nav-link:hover { color: var(--crimson); }
-@media (max-width: 600px) { nav { gap: 0.8rem; } .nav-link { font-size: 0.84rem; } }
+        .nav-link { font-weight: 700; font-size: 0.92rem; color: #fff; background: linear-gradient(135deg, #C0262D, #9E1B21); padding: 0.6rem 1.35rem; border-radius: 999px; box-shadow: 0 10px 22px -10px rgba(158,27,33,.75); transition: transform .18s, box-shadow .25s; }
+    .nav-link:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -10px rgba(158,27,33,.85); }
+    @media (max-width: 600px) { nav { gap: 0.6rem; } .nav-link { font-size: 0.86rem; padding: 0.55rem 1.1rem; } }
 
     /* ---------- BUTTONS ---------- */
     .btn {
@@ -1042,9 +1042,6 @@
     <nav>
       <a href="#catalogue" class="nav-link">Shop</a>
       <a href="/blog" class="nav-link">Blog</a>
-      <a href="https://wa.me/919088055818?text=Hi!%20I%20want%20to%20inquire%20about%20Flavoura%20Instant%20Premixes" target="_blank" class="btn btn-whatsapp">
-        WhatsApp Order
-      </a>
     </nav>
   </header>
 

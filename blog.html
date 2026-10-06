@@ -20,6 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/blog/blog.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Flavoura Blog","url":"https://myflavoura.in/blog","publisher":{"@type":"Organization","name":"Flavoura","url":"https://myflavoura.in/"}}</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <header>
@@ -33,16 +34,26 @@
     <h1>Cook better. Cook faster.</h1>
     <p>Recipes, restaurant-style tricks and zero-prep cooking guides for busy kitchens.</p>
   </div>
-  <section class="grid" id="posts" aria-label="Latest articles"><p class="meta">Loading articles…</p></section>
-  <noscript><p>Please enable JavaScript to see the article list.</p></noscript>
+  <section class="grid" id="posts" aria-label="Latest articles">
+<!--POSTS:START-->
+<a class="card" href="/blog/versatile-premix-gravies-and-starters"><span class="tag">Kitchen Hacks</span><h2>1 Pack, 2 Ways: How to Cook Rich Gravies OR Dry Seekh Kababs &amp; Tikkas with Flavoura Premixes</h2><p>Discover how to use Flavoura premixes both ways: as a rich, silky gravy curry or as a dry marinade for tikkas, seekh kababs, and air-fryer starters.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/restaurant-style-gravy"><span class="tag">Guides</span><h2>How to Make Restaurant-Style Gravy at Home in 15 Minutes</h2><p>Learn how to make restaurant-style Indian gravy at home in 15 minutes with zero chopping, using an instant gravy premix.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/outstation-pg-survival-guide"><span class="tag">Travel &amp; PG</span><h2>From Home to Hostel: The Outstation Student &amp; Traveler’s Survival Guide</h2><p>Missing home food in your hostel or PG? Discover how lightweight, leak-proof dry premixes deliver pan-India home comfort in 15 minutes with zero mess.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/college-student-survival-guide"><span class="tag">Student Special</span><h2>The College Student &amp; Small-Kitchen Survival Guide to Gourmet Cooking</h2><p>No blender? No counter space? Learn how college students and PG residents can cook gourmet 15-minute Indian meals using just one pan and a single hotplate.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/3-ingredient-formula"><span class="tag">Guides</span><h2>The 3-Ingredient Formula: Why Less Is More in Modern Indian Cooking</h2><p>Demystifying pre-balanced spice blends: how 3 simple ingredients give you rich, restaurant-style Indian curries at home in 15 minutes.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/ditch-takeout-apps"><span class="tag">Quick Meals</span><h2>Ditch Takeout Apps: How Cooking Premixes Save Time and Money</h2><p>Compare the real cost and wait time of ordering takeout vs cooking fresh gourmet meals with Flavoura premixes in 15 minutes.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<a class="card" href="/blog/healthy-instant-masala-premix"><span class="tag">Ingredients</span><h2>What Makes a 15-Minute Gourmet Premix Good for You?</h2><p>Is an instant masala premix healthy? See what goes inside a Flavoura pack: real ground nuts and spices, no MSG, no preservatives, no fillers.</p><span class="meta">5 October 2026 · 3 min read</span><span class="more">Read article →</span></a>
+<!--POSTS:END-->
+</section>
 </main>
 <footer>
   <p>© 2026 Flavoura · FSSAI Reg No: 22824038000288</p>
   <p style="margin-top:.6rem"><a href="/">Home</a><a href="/blog">Blog</a><a href="https://instagram.com/myflavoura" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@arshiaahmad" target="_blank" rel="noopener">YouTube</a></p>
 </footer>
 <script>
-/* Reads /blog/posts.json and builds a card for every post, newest first. */
-fetch('/blog/posts.json').then(r=>r.json()).then(function(posts){
+/* Backup only: the article cards are filled in automatically when the site is built (build-blog.js).
+   If the page ever has no cards, this reads /blog/posts.json instead. */
+if(!document.querySelector('#posts .card')){fetch('/blog/posts.json').then(r=>r.json()).then(function(posts){
   posts.sort(function(a,b){return b.date.localeCompare(a.date)});
   var box=document.getElementById('posts'); box.textContent='';
   posts.forEach(function(p){
@@ -52,7 +63,7 @@ fetch('/blog/posts.json').then(r=>r.json()).then(function(posts){
     });
     box.appendChild(a);
   });
-}).catch(function(){document.getElementById('posts').innerHTML='<p>Articles could not be loaded. Please refresh.</p>';});
+}).catch(function(){document.getElementById('posts').innerHTML='<p>Articles could not be loaded. Please refresh.</p>';});}
 </script>
 </body>
 </html>

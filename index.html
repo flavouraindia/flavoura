@@ -893,6 +893,85 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       cursor: pointer;
     }
     .follow-later:hover { color: var(--crimson); text-decoration: underline; }
+
+    /* ---------- FULL-SIZE / TRIAL PACK SWITCH ---------- */
+    [hidden] { display: none !important; }
+    .pack-switch-wrap { display: flex; justify-content: center; margin: 0 0 2rem; }
+    .pack-switch {
+      display: inline-flex;
+      gap: 0.3rem;
+      padding: 0.3rem;
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+    }
+    .pack-tab {
+      min-height: 46px;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--crimson);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.1;
+      cursor: pointer;
+      transition: background-color .2s ease, color .2s ease, box-shadow .25s ease, transform .15s ease;
+    }
+    .pack-tab:hover { background: var(--amber-soft); }
+    .pack-tab:active { transform: scale(.97); }
+    .pack-tab.active {
+      background: linear-gradient(135deg, #CF2B32, var(--crimson-dark));
+      color: #fff;
+      box-shadow: 0 10px 20px -10px rgba(158, 27, 33, .8);
+    }
+    @media (max-width: 600px) { .pack-tab { padding: 0.65rem 1.05rem; font-size: 0.86rem; } }
+
+    /* ---------- OFFERS STRIP (under the headline) ---------- */
+    .offer-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      max-width: 680px;
+      margin: 1.3rem auto 0;
+      text-align: center;
+    }
+    .offer-item {
+      padding: 0.95rem 0.8rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+    }
+    .offer-item strong { display: block; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.015em; color: var(--crimson); line-height: 1.25; }
+    .offer-item span { display: block; margin-top: 0.35rem; font-size: 0.8rem; font-weight: 600; line-height: 1.4; color: var(--muted); }
+    .offer-item.offer-gift { background: var(--amber-soft); border-color: #F6D98C; }
+    .offer-item.offer-gift span { color: var(--amber-ink); }
+    @media (max-width: 600px) {
+      .offer-strip { gap: 0.5rem; }
+      .offer-item { padding: 0.8rem 0.5rem; }
+      .offer-item strong { font-size: 0.92rem; }
+      .offer-item span { font-size: 0.72rem; }
+    }
+
+    /* ---------- CART BAR EXTRAS (savings, freebie, nudges) ---------- */
+    .cart-extras { margin-top: 0.15rem; font-size: 0.76rem; font-weight: 600; line-height: 1.4; color: var(--amber-ink); }
+    .cart-extras:empty { display: none; }
+    .cart-extras em { font-style: italic; font-weight: 700; color: var(--wa-dark); }
+
+    /* ---------- TRIAL PACK CARDS: 900 x 650 IMAGES, NEVER CROPPED ---------- */
+    #gridTrial .product-img {
+      aspect-ratio: 900 / 650;
+      background: #fff;
+    }
+    #gridTrial .product-img img {
+      object-fit: contain;
+      object-position: center;
+    }
+    @media (hover: hover) {
+      #gridTrial .product-card:hover .product-img img { transform: none; }
+    }
   </style>
 
   <!-- Complete Flavoura Business, Menu & FAQ Schema -->
@@ -1094,11 +1173,20 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
   <!-- CATALOGUE SECTION -->
   <section class="products-section" id="catalogue">
     <div class="section-header">
-      <h2>Instant Premix Range</h2>
-      <p>Flat ₹120 per pack. Order directly via WhatsApp.</p>
+      <h2 id="rangeTitle">Instant Premix Range</h2>
+      <p id="rangeSub">Flat ₹120 per pack. Order directly via WhatsApp.</p>
+      <div class="offer-strip" id="offerStrip"></div>
     </div>
 
-    <div class="product-grid">
+    <!-- FULL-SIZE / TRIAL SWITCH -->
+    <div class="pack-switch-wrap">
+      <div class="pack-switch" role="group" aria-label="Choose pack size">
+        <button type="button" id="tabFull" class="pack-tab active" aria-pressed="true" onclick="setPackMode('full')">Full-Size Packs</button>
+        <button type="button" id="tabTrial" class="pack-tab" aria-pressed="false" onclick="setPackMode('trial')">Trial Packs</button>
+      </div>
+    </div>
+
+    <div class="product-grid" id="gridFull">
 
       <!-- Achaari -->
       <div class="product-card">
@@ -1335,6 +1423,245 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       </div>
 
     </div>
+
+    <!-- ================= TRIAL PACKS ================= -->
+    <div class="product-grid" id="gridTrial" hidden>
+
+      <!-- Achaari Premix (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1XnP1PDSjhn8NWIfH7UsG5MBLUxJ0i-r6" alt="Achaari Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Achaari Premix</h3>
+            <p class="product-desc">Tangy, zesty pickle flavor base with saunf, zeera, mustard & kalaunji.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• 200g Tomato Puree + 250g Protein + 40g Premix (entire pouch). Sauté & cook in oil.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(40g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Achaari Premix', 'This premix contains methi daana, saunf, zeera, mustard, kalaunji, Kashmiri red chilli, coriander seeds, citric acid, onion, ginger, and garlic powders, black salt, garam masala, and haldi.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Achaari Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Achaari Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Haryali Premix (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1z_nAula-M1-0OzdTpYOxPtDytugeox-J" alt="Haryali Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Haryali Premix</h3>
+            <p class="product-desc">Fresh green marinade with green chilli, kaju, and fried onion.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• 250g Protein + 30g Premix (full pouch) + 3 tbsp Curd. Add oil/butter, pan fry & cook.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(30g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Haryali Premix', 'This premix contains dalchini, cardamom (black and green), clove, black pepper, star anise, kaju powder, onion and milk powders, zeera, coriander, ginger, garam masala, garlic flakes, green chilli, fried onion, salt and food colour.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Haryali Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Haryali Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Angaara Premix (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1uN57GfL0oIJ8WzPuW7QLFbsilsa_u112" alt="Angaara Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Angaara Premix</h3>
+            <p class="product-desc">Rich restaurant-style marinade with cashews, almonds, and spices.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• 250g Protein + 40g Premix (full pouch) + 100g Thick Curd. Cook till tender.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(40g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Angaara Premix', 'This premix contains cashew, almond, dalchini, green cardamom, Kashmiri lal mirch, clove, black pepper, star anise, ginger, milk, and garlic powders, cornflour, Kashmiri red chilli, coriander, cumin, and garam masala powders, salt, kasuri methi, and fried onion.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Angaara Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Angaara Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fish Fry Premix (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1NDX7Q64MbYtnmM0TNhTLrpLrkAL1Kw-3" alt="Fish Fry Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Fish Fry Premix</h3>
+            <p class="product-desc">Crispy marinade with ajwain, rai, cumin, and Kashmiri chilli.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (1kg):</div>
+              <div class="quick-method-steps">
+                <span>• 1kg Fish Slices + 40g Premix (full pouch) + 2 tbsp Lemon Juice. Shallow pan-fry.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(40g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Fish Fry Premix', 'This premix contains coriander powder, Kashmiri red chilli, garlic and ginger powders, cumin powder, turmeric, chaat masala, garam masala, rai, and ajwain.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Fish Fry Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Fish Fry Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tandoori Premix (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1xvRFlz4agcpOL2KLNMjM_xwoIV3ghPXS" alt="Tandoori Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Tandoori Premix</h3>
+            <p class="product-desc">Classic tandoori marinade with aamchur, jayphal, and Kashmiri chilli.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (500g):</div>
+              <div class="quick-method-steps">
+                <span>• 500g Chicken/Paneer + 30g Premix (full pouch) + 200g Curd + Lemon juice. Cook in pan.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(30g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Tandoori Premix', 'This premix contains Kashmiri chilli powder, zeera powder, chaat masala, aamchur powder, salt, ginger powder, garlic powder, garam masala and jayphal powder.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Tandoori Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Tandoori Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- White Gravy (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1EmqvN8KOpYAnLO-CNXUz4UGwof_xTjKt" alt="White Gravy Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">White Gravy</h3>
+            <p class="product-desc">Rich Mughlai gravy with cashew, melon seeds, and white sesame.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• <strong>Paneer:</strong> Mix 30g premix + milk paste. Cook in butter/oil until thick, add 250g Paneer.</span>
+                <span>• <strong>Chicken:</strong> Marinate 250g chicken with 30g premix + 100g curd. Cook in butter/oil.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(30g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('White Gravy Premix', 'This premix contains cashew, melon seeds, white sesame, milk powder, chaat masala, salt, cornflour, onion powder, garlic powder, ginger powder, sugar, garam masala, and kasuri methi.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-White Gravy Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('White Gravy Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Red Gravy (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1eg1GfaP2VenrrKRMv7tclX1gM39yCY7L" alt="Red Gravy Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Red Gravy</h3>
+            <p class="product-desc">Classic North Indian gravy base with cashews, milk powder, and red chilli.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• <strong>Veg/Paneer:</strong> Cook 200g tomato puree in oil. Add 40g premix water-paste + 250g Paneer/Veg.</span>
+                <span>• <strong>Chicken:</strong> Marinate 250g chicken with 40g premix + curd/water. Add to cooked tomato puree.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(40g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Red Gravy Premix', 'This premix contains cashew, white sesame, melon seeds, milk powder, chaat masala, onion powder, garlic powder, ginger powder, red chilli powder, garam masala, cornflour, salt, sugar, kasuri methi, ghee, and red food color.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Red Gravy Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Red Gravy Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Golden Gravy (Trial) -->
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://lh3.googleusercontent.com/d/1FFbFWzCPQGCE1zmJzk8P6hbDaM_-fQK0" alt="Golden Gravy Instant Premix Trial Pack" width="900" height="650" loading="lazy" decoding="async">
+        </div>
+        <div class="product-details">
+          <div>
+            <h3 class="product-title">Golden Gravy</h3>
+            <p class="product-desc">Rich cashew & sesame base. Great for Shahi Paneer, Veggies or Chicken.</p>
+
+            <div class="quick-method-box">
+              <div class="quick-method-title">⚡ How to Cook (250g):</div>
+              <div class="quick-method-steps">
+                <span>• 200g Tomato Puree + 40g Premix (entire pouch) + 250g Protein/Veg. Cook in oil until thick.</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-action">
+            <div>
+              <span class="price-tag js-trial-single">₹70</span> <span class="weight-tag">(40g Trial Pack)</span>
+            </div>
+            <button class="btn-ingredients" onclick="openIngredientsModal('Golden Gravy Premix', 'This premix contains cashew, melon seeds, white sesame, milk powder, chaat masala, salt, onion powder, garlic powder, ginger powder, haldi, red chilli powder, coriander powder, garam masala, kasuri methi, and sugar.')">🔍 Check Ingredients</button>
+            <div class="cart-action-wrap" id="action-Golden Gravy Premix (Trial Pack)">
+              <button class="btn-add-cart" onclick="updateQty('Golden Gravy Premix (Trial Pack)', 1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- WATCH VIDEO RECIPES BUTTON -->
@@ -1500,6 +1827,7 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
     <div class="cart-summary-text">
       <h4 id="stickyTotalItems">0 Items Added</h4>
       <p id="stickyTotalPrice">Item Total: ₹0</p>
+      <div class="cart-extras" id="stickyExtras"></div>
     </div>
     <button class="btn-checkout" onclick="openCheckoutModal()">Proceed to Order →</button>
   </div>
@@ -1617,7 +1945,76 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
   <script>
     // CART STATE
     const cart = {};
-    const itemPrice = 120;
+    const itemPrice = 120;            // FULL-SIZE bottle price
+
+    // TRIAL PACK PRICING + FREEBIE (change only these numbers)
+    const TRIAL_PRICE      = 70;      // per trial pouch when buying fewer than TRIAL_BULK_MIN
+    const TRIAL_BULK_PRICE = 60;      // per trial pouch when buying TRIAL_BULK_MIN or more
+    const TRIAL_BULK_MIN   = 4;
+    const FREE_EVERY       = 3;       // every 3 full-size bottles = 1 free mystery trial pack
+    const TRIAL_SUFFIX = ' (Trial Pack)';
+
+    function isTrialItem(name) { return name.endsWith(TRIAL_SUFFIX); }
+
+    // Trial packs from any flavours are counted together
+    function trialCost(n) {
+      const unit = n >= TRIAL_BULK_MIN ? TRIAL_BULK_PRICE : TRIAL_PRICE;
+      return { unit, total: n * unit };
+    }
+
+    // Everything the cart bar, checkout, Discord and WhatsApp need, in one place
+    function calcTotals() {
+      let fullQty = 0, trialQty = 0;
+      for (const item in cart) {
+        if (isTrialItem(item)) trialQty += cart[item]; else fullQty += cart[item];
+      }
+      const trial = trialCost(trialQty);
+      const fullTotal = fullQty * itemPrice;
+      return {
+        fullQty, trialQty, trial, fullTotal,
+        totalQty: fullQty + trialQty,
+        total: fullTotal + trial.total,
+        saved: trialQty * TRIAL_PRICE - trial.total,
+        free: Math.floor(fullQty / FREE_EVERY)      // free mystery trial packs (not counted in totals)
+      };
+    }
+
+    // FULL-SIZE / TRIAL SWITCH
+    function setPackMode(mode, fromUrl) {
+      const trial = mode === 'trial';
+      document.getElementById('gridFull').hidden = trial;
+      document.getElementById('gridTrial').hidden = !trial;
+      document.getElementById('tabFull').classList.toggle('active', !trial);
+      document.getElementById('tabTrial').classList.toggle('active', trial);
+      document.getElementById('tabFull').setAttribute('aria-pressed', String(!trial));
+      document.getElementById('tabTrial').setAttribute('aria-pressed', String(trial));
+      document.getElementById('rangeTitle').innerText = trial ? 'Trial Pack Range' : 'Instant Premix Range';
+      document.getElementById('rangeSub').innerText = trial
+        ? `₹${TRIAL_PRICE} per trial pouch, or just ₹${TRIAL_BULK_PRICE} each when you buy ${TRIAL_BULK_MIN} or more. Order directly via WhatsApp.`
+        : `Flat ₹${itemPrice} per pack. Order directly via WhatsApp.`;
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search + (trial ? '#trial-packs' : ''));
+      } catch (e) {}
+      if (fromUrl) {
+        const cat = document.getElementById('catalogue');
+        if (cat) setTimeout(() => cat.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+      }
+    }
+
+    // Offers under the headline + trial card prices all follow the constants above
+    (function renderOffers() {
+      document.querySelectorAll('.js-trial-single').forEach(el => { el.textContent = '₹' + TRIAL_PRICE; });
+      document.getElementById('offerStrip').innerHTML =
+        `<div class="offer-item offer-gift"><strong>🎁 Free Surprise Pack</strong><span>Buy ${FREE_EVERY} full-size bottles, get 1 mystery trial pack free. Every ${FREE_EVERY} bottles!</span></div>` +
+        `<div class="offer-item"><strong>🎉 ₹${TRIAL_BULK_PRICE} each on ${TRIAL_BULK_MIN}+ trial packs</strong><span>Trial packs are ₹${TRIAL_PRICE} each. Buy ${TRIAL_BULK_MIN} or more and every one drops to ₹${TRIAL_BULK_PRICE}.</span></div>`;
+    })();
+
+    // Open straight on trial packs for links like myflavoura.in/#trial-packs or /?packs=trial
+    window.addEventListener('DOMContentLoaded', () => {
+      const wantsTrial = window.location.hash === '#trial-packs' ||
+                         new URLSearchParams(window.location.search).get('packs') === 'trial';
+      if (wantsTrial) setPackMode('trial', true);
+    });
 
     function updateQty(productName, delta) {
       if (!cart[productName]) cart[productName] = 0;
@@ -1654,16 +2051,23 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
     }
 
     function renderCartBar() {
-      let totalQty = 0;
-      for (let item in cart) {
-        totalQty += cart[item];
-      }
-
+      const t = calcTotals();
       const cartBar = document.getElementById('stickyCartBar');
-      if (totalQty > 0) {
+      if (t.totalQty > 0) {
         cartBar.classList.add('active');
-        document.getElementById('stickyTotalItems').innerText = `${totalQty} Item${totalQty > 1 ? 's' : ''} Added`;
-        document.getElementById('stickyTotalPrice').innerText = `Item Total: ₹${totalQty * itemPrice}`;
+        document.getElementById('stickyTotalItems').innerText = `${t.totalQty} Item${t.totalQty > 1 ? 's' : ''} Added`;
+        document.getElementById('stickyTotalPrice').innerText = `Item Total: ₹${t.total}`;
+
+        const extras = [];
+        if (t.saved > 0) extras.push(`<div><em>You saved ₹${t.saved} 🎉</em></div>`);
+        if (t.free > 0) extras.push(`<div>🎁 + ${t.free} free mystery trial pack${t.free > 1 ? 's' : ''}</div>`);
+        // one gentle nudge when the customer is exactly one item away from a perk
+        if (t.fullQty % FREE_EVERY === FREE_EVERY - 1) {
+          extras.push(`<div>Add 1 more bottle for a free mystery trial pack 🎁</div>`);
+        } else if (t.trialQty === TRIAL_BULK_MIN - 1) {
+          extras.push(`<div>Add 1 more trial pack and they're ₹${TRIAL_BULK_PRICE} each 🎉</div>`);
+        }
+        document.getElementById('stickyExtras').innerHTML = extras.join('');
       } else {
         cartBar.classList.remove('active');
       }
@@ -1695,19 +2099,33 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
     function openCheckoutModal() {
       const breakdown = document.getElementById('cartItemsBreakdown');
       breakdown.innerHTML = '';
+      const t = calcTotals();
 
-      let totalQty = 0;
-      for (let item in cart) {
-        totalQty += cart[item];
+      const addRow = (left, right) => {
         const row = document.createElement('div');
         row.className = 'cart-item-row';
-        row.innerHTML = `<span>${item} x ${cart[item]}</span><span>₹${cart[item] * itemPrice}</span>`;
+        row.innerHTML = `<span>${left}</span><span>${right}</span>`;
         breakdown.appendChild(row);
+      };
+
+      // full-size bottles: priced each. trial packs: quantity only (priced together below)
+      for (let item in cart) {
+        addRow(`${item} x ${cart[item]}`, isTrialItem(item) ? '' : `₹${cart[item] * itemPrice}`);
+      }
+
+      if (t.trialQty > 0) {
+        addRow(`<strong>Trial Packs x ${t.trialQty} @ ₹${t.trial.unit} each</strong>`, `₹${t.trial.total}`);
+      }
+      if (t.free > 0) {
+        addRow(`🎁 <strong>Free Mystery Trial Pack x ${t.free}</strong>`, '<strong>FREE</strong>');
+      }
+      if (t.saved > 0) {
+        addRow(`<em>You saved 🎉</em>`, `<em>₹${t.saved}</em>`);
       }
 
       const totalRow = document.createElement('div');
       totalRow.className = 'cart-total-row';
-      totalRow.innerHTML = `<span>Items Total (${totalQty} packs)</span><span>₹${totalQty * itemPrice}</span>`;
+      totalRow.innerHTML = `<span>Items Total (${t.totalQty} packs)</span><span>₹${t.total}</span>`;
       breakdown.appendChild(totalRow);
 
       document.getElementById('checkoutModal').classList.add('active');
@@ -1767,12 +2185,25 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       const fullPhone = `+91 ${rawPhone}`;
 
       // 1. Build Item Summary
+      const t = calcTotals();
+      const totalQty = t.totalQty;
       let itemsSummary = '';
-      let totalQty = 0;
       for (let item in cart) {
-        itemsSummary += `• ${item} x ${cart[item]} = ₹${cart[item] * itemPrice}\n`;
-        totalQty += cart[item];
+        itemsSummary += isTrialItem(item)
+          ? `• ${item} x ${cart[item]}\n`
+          : `• ${item} x ${cart[item]} = ₹${cart[item] * itemPrice}\n`;
       }
+      if (t.trialQty > 0) {
+        itemsSummary += `\n*Trial packs:* ${t.trialQty} x ₹${t.trial.unit} = ₹${t.trial.total}\n`;
+      }
+      if (t.free > 0) {
+        itemsSummary += `\n🎁 *FREE Mystery Trial Pack x ${t.free}* (surprise flavour, our pick!)\n`;
+      }
+
+      // Order label: trial-only, mixed, or regular
+      const orderLabel = t.trialQty > 0 && t.fullQty === 0 ? 'TRIAL PACK ORDER REQUEST'
+                       : t.trialQty > 0 ? 'ORDER REQUEST (INCLUDES TRIAL PACKS)'
+                       : 'ORDER REQUEST';
 
       // 2. SPICE BOT DISCORD WEBHOOK
       const discordWebhookUrl = "https://discord.com/api/webhooks/1555527432176672829/rPV4GwhKY_s59OCpvBYFiTufRTnoDbGi7y8ADU6P6vvytNcY263in1TwRtyCpTaTgFne";
@@ -1780,15 +2211,16 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       const discordPayload = {
         username: "Spice Bot",
         embeds: [{
-          title: "🛒 NEW FLAVOURA ORDER REQUEST",
+          title: `🛒 NEW FLAVOURA ${orderLabel}`,
           color: 12068138,
           fields: [
             { name: "Customer Name", value: name, inline: true },
             { name: "Phone Number", value: fullPhone, inline: true },
             { name: "Delivery Address", value: address },
             { name: "Items Ordered", value: itemsSummary || "None" },
-            { name: "Total Packs", value: `${totalQty} packs`, inline: true },
-            { name: "Subtotal", value: `₹${totalQty * itemPrice}`, inline: true }
+            ...(t.free > 0 ? [{ name: "🎁 Free Mystery Trial Pack", value: `${t.free} to add when packing (our choice of flavour, customer does not know)` }] : []),
+            { name: "Total Packs", value: `${totalQty} packs${t.free > 0 ? ` (+${t.free} free)` : ''}`, inline: true },
+            { name: "Subtotal", value: `₹${t.total}`, inline: true }
           ],
           timestamp: new Date().toISOString()
         }]
@@ -1805,12 +2237,12 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       }
 
       // 3. WHATSAPP REDIRECT FOR CUSTOMER
-      const message = `*NEW FLAVOURA ORDER REQUEST*\n\n` +
+      const message = `*NEW FLAVOURA ${orderLabel}*\n\n` +
                       `*Customer Name:* ${name}\n` +
                       `*Phone:* ${fullPhone}\n` +
                       `*Delivery Address:* ${address}\n\n` +
                       `*ITEMS ORDERED:*\n${itemsSummary}\n` +
-                      `*Item Subtotal (${totalQty} packs):* ₹${totalQty * itemPrice}\n\n` +
+                      `*Item Subtotal (${totalQty} packs):* ₹${t.total}\n\n` +
                       `Please call me back to confirm order & total delivery charge.`;
 
       const whatsappUrl = `https://wa.me/919088055818?text=${encodeURIComponent(message)}`;

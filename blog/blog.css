@@ -48,3 +48,21 @@ footer{margin-top:1rem;padding:3.2rem var(--pad) 1.6rem;background:linear-gradie
 .footer-col a:hover{color:#fff;text-decoration:underline}
 .footer-col strong{color:#fff}
 .footer-bottom{max-width:1240px;margin:0 auto;padding-top:1.2rem;border-top:1px solid rgba(255,233,199,.25);text-align:center;font-size:.8rem;color:rgba(255,233,199,.85)}
+
+/* ---------- READ MORE (auto-scrolling latest posts) ---------- */
+.readmore{max-width:1240px;margin:0 auto;padding:3rem var(--pad-x, var(--pad)) 2.4rem}
+.rm-head{text-align:center;margin-bottom:1.5rem}
+.rm-head h2{font-family:var(--font-display, var(--serif));font-size:clamp(1.7rem,4.6vw,2.5rem);font-weight:700;line-height:1.15;letter-spacing:-.01em;color:var(--charcoal)}
+.rm-head h2::after{content:'';display:block;width:56px;height:5px;margin:.7rem auto 0;border-radius:999px;background:linear-gradient(90deg,var(--saffron),var(--crimson))}
+.rm-track{display:flex;gap:1.1rem;overflow-x:auto;padding:.5rem .3rem 1.3rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rm-track::-webkit-scrollbar{display:none}
+.rm-card{flex:0 0 min(300px,82vw);display:flex;flex-direction:column;gap:.5rem;padding:1.25rem;background:#fff;border:1px solid var(--line);border-top:5px solid var(--amber);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.06);transition:transform .25s ease,box-shadow .25s ease}
+.rm-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -14px rgba(158,27,33,.28)}
+.rm-tag{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.rm-title{font-size:1.08rem;font-weight:800;line-height:1.3;color:var(--charcoal)}
+.rm-excerpt{font-size:.9rem;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rm-meta{font-size:.78rem;color:var(--muted)}
+.rm-more{margin-top:auto;font-size:.88rem;font-weight:800;color:var(--crimson)}
+.rm-all{text-align:center}
+.rm-all a{display:inline-flex;align-items:center;min-height:44px;padding:.6rem 1.4rem;border:1.5px solid var(--crimson);border-radius:999px;background:#fff;color:var(--crimson);font-size:.9rem;font-weight:700;transition:background-color .2s,color .2s}
+.rm-all a:hover{background:var(--crimson);color:#fff}

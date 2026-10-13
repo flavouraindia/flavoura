@@ -10,8 +10,10 @@
      1. rewrites blog/posts.json
      2. rewrites sitemap.xml  (home, blog, and every published post)
      3. fills the article cards into blog.html so Google can see them
-     4. adds the Vercel analytics line to blog pages that do not have it
-     5. prints a check-up list of anything that looks wrong in your posts
+     4. fills the auto-scrolling "Read More" strip (latest posts) on the homepage
+        and at the bottom of every post
+     5. adds the Vercel analytics line to blog pages that do not have it
+     6. prints a check-up list of anything that looks wrong in your posts
 
    DRAFT RULE: a post that still has  <meta name="robots" content="noindex...">
    is a draft. It is skipped everywhere above. To publish, change that line to
@@ -35,6 +37,7 @@ const EXTRA_URLS = [];                           // other pages for the sitemap,
 const ROOT = __dirname;
 const BLOG_DIR = path.join(ROOT, 'blog');
 const BLOG_PAGE = path.join(ROOT, 'blog.html');
+const INDEX_PAGE = path.join(ROOT, 'index.html');
 const SITEMAP = path.join(ROOT, 'sitemap.xml');
 const POSTS_JSON = path.join(BLOG_DIR, 'posts.json');
 const CHECK_ONLY = process.argv.includes('--check');
@@ -82,6 +85,17 @@ function metaContent(html, key) {
   }
   return '';
 }
+
+/* put (or refresh) a block between <!--NAME:START--> and <!--NAME:END--> */
+function setBlock(html, name, content, insert) {
+  const re = new RegExp('<!--' + name + ':START-->[\\s\\S]*?<!--' + name + ':END-->\\n?');
+  const wrapped = '<!--' + name + ':START-->\n' + content + '\n<!--' + name + ':END-->\n';
+  if (re.test(html)) return html.replace(re, () => wrapped);
+  return insert ? insert(html, wrapped) : html;
+}
+
+/* scrolls the strip slowly by itself; stops while touched, hovered or focused; respects reduced-motion */
+const READMORE_SCRIPT = '<script>(function(){var s=document.currentScript.parentNode,t=s.querySelector(".rm-track");if(!t||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;var paused=false,dir=1,last=0,acc=0,vis=true,timer;if("IntersectionObserver" in window){new IntersectionObserver(function(e){vis=e[0].isIntersecting;}).observe(s);}function stop(){paused=true;clearTimeout(timer);}function go(){clearTimeout(timer);timer=setTimeout(function(){paused=false;},2500);}["mouseenter","touchstart","pointerdown","focusin"].forEach(function(n){t.addEventListener(n,stop,{passive:true});});["mouseleave","touchend","touchcancel","focusout"].forEach(function(n){t.addEventListener(n,go,{passive:true});});function step(ts){var dt=ts-(last||ts);last=ts;if(!paused&&vis&&document.visibilityState==="visible"&&t.scrollWidth>t.clientWidth){acc+=dt*0.035;if(acc>=1){var px=Math.floor(acc);acc-=px;t.scrollLeft+=dir*px;if(t.scrollLeft+t.clientWidth>=t.scrollWidth-1)dir=-1;else if(t.scrollLeft<=0)dir=1;}}requestAnimationFrame(step);}requestAnimationFrame(step);})();</script>';
 
 /* ---------- read one post ---------- */
 function parsePost(file) {
@@ -202,7 +216,32 @@ function main() {
     }
   }
 
-  /* 4. analytics on every blog page */
+  /* 4. "Read More" strip: homepage + bottom of every post (latest 6, never the post itself) */
+  const readMoreHtml = exclude => {
+    const items = list.filter(p => p.slug !== exclude).slice(0, 6);
+    if (!items.length) return '';
+    const cards = items.map(p =>
+      `<a class="rm-card" href="/blog/${esc(p.slug)}"><span class="rm-tag">${esc(p.tag)}</span><span class="rm-title">${esc(p.title)}</span><span class="rm-excerpt">${esc(p.excerpt)}</span><span class="rm-meta">${esc(p.date_h)} · ${esc(p.read)}</span><span class="rm-more">Read article →</span></a>`
+    ).join('\n');
+    return `<section class="readmore" aria-labelledby="readMoreTitle">\n<div class="rm-head"><h2 id="readMoreTitle">Read More</h2></div>\n<div class="rm-track" tabindex="0" aria-label="Latest articles">\n${cards}\n</div>\n<p class="rm-all"><a href="/blog">View all articles</a></p>\n${READMORE_SCRIPT}\n</section>`;
+  };
+  let readMoreUpdated = 0;
+  if (list.length && fs.existsSync(INDEX_PAGE)) {
+    const page = read(INDEX_PAGE);
+    if (!/<!--READMORE:START-->[\s\S]*?<!--READMORE:END-->/.test(page)) warn('index.html', 'the <!--READMORE:START--> ... <!--READMORE:END--> markers are missing, Read More section not updated');
+    else if (write(INDEX_PAGE, setBlock(page, 'READMORE', readMoreHtml('')))) readMoreUpdated++;
+  }
+  if (list.length) {
+    fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.html') && !f.startsWith('_')).forEach(f => {
+      const file = path.join(BLOG_DIR, f);
+      const html = read(file);
+      const next = setBlock(html, 'READMORE', readMoreHtml(f.slice(0, -5)), (h, block) =>
+        /<footer\b/i.test(h) ? h.replace(/<footer\b/i, m => block + m) : h.replace(/<\/body>/i, m => block + m));
+      if (write(file, next)) readMoreUpdated++;
+    });
+  }
+
+  /* 5. analytics on every blog page */
   let analyticsAdded = 0;
   [BLOG_PAGE].concat(fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.html')).map(f => path.join(BLOG_DIR, f)))
     .filter(f => fs.existsSync(f)).forEach(f => {
@@ -220,6 +259,7 @@ function main() {
   published.forEach(p => console.log(`   + ${p.slug}  (${p.pub.slice(0, 10)})`));
   if (drafts.length) { console.log(`Drafts skipped (still marked noindex): ${drafts.length}`); drafts.forEach(s => console.log(`   . ${s}`)); }
   console.log('Updated: ' + (changed.length ? changed.join(', ') : 'nothing needed changing'));
+  if (readMoreUpdated) console.log(`"Read More" strip refreshed on ${readMoreUpdated} page(s)`);
   if (analyticsAdded) console.log(`Vercel analytics line added to ${analyticsAdded} page(s)`);
   if (warnings.length) { console.log(`\nNEEDS FIXING (${warnings.length}):`); warnings.forEach(w => console.log('   ! ' + w)); }
   if (tips.length) { console.log(`\nNICE TO FIX (${tips.length}):`); tips.forEach(t => console.log('   - ' + t)); }

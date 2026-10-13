@@ -972,6 +972,24 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
     @media (hover: hover) {
       #gridTrial .product-card:hover .product-img img { transform: none; }
     }
+
+/* ---------- READ MORE (auto-scrolling latest posts) ---------- */
+.readmore{max-width:1240px;margin:0 auto;padding:3rem var(--pad-x, var(--pad)) 2.4rem}
+.rm-head{text-align:center;margin-bottom:1.5rem}
+.rm-head h2{font-family:var(--font-display, var(--serif));font-size:clamp(1.7rem,4.6vw,2.5rem);font-weight:700;line-height:1.15;letter-spacing:-.01em;color:var(--charcoal)}
+.rm-head h2::after{content:'';display:block;width:56px;height:5px;margin:.7rem auto 0;border-radius:999px;background:linear-gradient(90deg,var(--saffron),var(--crimson))}
+.rm-track{display:flex;gap:1.1rem;overflow-x:auto;padding:.5rem .3rem 1.3rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rm-track::-webkit-scrollbar{display:none}
+.rm-card{flex:0 0 min(300px,82vw);display:flex;flex-direction:column;gap:.5rem;padding:1.25rem;background:#fff;border:1px solid var(--line);border-top:5px solid var(--amber);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.06);transition:transform .25s ease,box-shadow .25s ease}
+.rm-card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -14px rgba(158,27,33,.28)}
+.rm-tag{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.rm-title{font-size:1.08rem;font-weight:800;line-height:1.3;color:var(--charcoal)}
+.rm-excerpt{font-size:.9rem;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rm-meta{font-size:.78rem;color:var(--muted)}
+.rm-more{margin-top:auto;font-size:.88rem;font-weight:800;color:var(--crimson)}
+.rm-all{text-align:center}
+.rm-all a{display:inline-flex;align-items:center;min-height:44px;padding:.6rem 1.4rem;border:1.5px solid var(--crimson);border-radius:999px;background:#fff;color:var(--crimson);font-size:.9rem;font-weight:700;transition:background-color .2s,color .2s}
+.rm-all a:hover{background:var(--crimson);color:#fff}
   </style>
 
   <!-- Complete Flavoura Business, Menu & FAQ Schema -->
@@ -1792,6 +1810,23 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- READ MORE: auto-scrolling latest posts (filled in automatically by build-blog.js on every deploy) -->
+  <!--READMORE:START-->
+<section class="readmore" aria-labelledby="readMoreTitle">
+<div class="rm-head"><h2 id="readMoreTitle">Read More</h2></div>
+<div class="rm-track" tabindex="0" aria-label="Latest articles">
+<a class="rm-card" href="/blog/versatile-premix-gravies-and-starters"><span class="rm-tag">Kitchen Hacks</span><span class="rm-title">1 Pack, 2 Ways: How to Cook Rich Gravies OR Dry Seekh Kababs &amp; Tikkas with Flavoura Premixes</span><span class="rm-excerpt">Discover how to use Flavoura premixes both ways: as a rich, silky gravy curry or as a dry marinade for tikkas, seekh kababs, and air-fryer starters.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+<a class="rm-card" href="/blog/restaurant-style-gravy"><span class="rm-tag">Guides</span><span class="rm-title">How to Make Restaurant-Style Gravy at Home in 15 Minutes</span><span class="rm-excerpt">Learn how to make restaurant-style Indian gravy at home in 15 minutes with zero chopping, using an instant gravy premix.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+<a class="rm-card" href="/blog/outstation-pg-survival-guide"><span class="rm-tag">Travel &amp; PG</span><span class="rm-title">From Home to Hostel: The Outstation Student &amp; Traveler’s Survival Guide</span><span class="rm-excerpt">Missing home food in your hostel or PG? Discover how lightweight, leak-proof dry premixes deliver pan-India home comfort in 15 minutes with zero mess.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+<a class="rm-card" href="/blog/college-student-survival-guide"><span class="rm-tag">Student Special</span><span class="rm-title">The College Student &amp; Small-Kitchen Survival Guide to Gourmet Cooking</span><span class="rm-excerpt">No blender? No counter space? Learn how college students and PG residents can cook gourmet 15-minute Indian meals using just one pan and a single hotplate.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+<a class="rm-card" href="/blog/3-ingredient-formula"><span class="rm-tag">Guides</span><span class="rm-title">The 3-Ingredient Formula: Why Less Is More in Modern Indian Cooking</span><span class="rm-excerpt">Demystifying pre-balanced spice blends: how 3 simple ingredients give you rich, restaurant-style Indian curries at home in 15 minutes.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+<a class="rm-card" href="/blog/ditch-takeout-apps"><span class="rm-tag">Quick Meals</span><span class="rm-title">Ditch Takeout Apps: How Cooking Premixes Save Time and Money</span><span class="rm-excerpt">Compare the real cost and wait time of ordering takeout vs cooking fresh gourmet meals with Flavoura premixes in 15 minutes.</span><span class="rm-meta">5 October 2026 · 3 min read</span><span class="rm-more">Read article →</span></a>
+</div>
+<p class="rm-all"><a href="/blog">View all articles</a></p>
+<script>(function(){var s=document.currentScript.parentNode,t=s.querySelector(".rm-track");if(!t||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;var paused=false,dir=1,last=0,acc=0,vis=true,timer;if("IntersectionObserver" in window){new IntersectionObserver(function(e){vis=e[0].isIntersecting;}).observe(s);}function stop(){paused=true;clearTimeout(timer);}function go(){clearTimeout(timer);timer=setTimeout(function(){paused=false;},2500);}["mouseenter","touchstart","pointerdown","focusin"].forEach(function(n){t.addEventListener(n,stop,{passive:true});});["mouseleave","touchend","touchcancel","focusout"].forEach(function(n){t.addEventListener(n,go,{passive:true});});function step(ts){var dt=ts-(last||ts);last=ts;if(!paused&&vis&&document.visibilityState==="visible"&&t.scrollWidth>t.clientWidth){acc+=dt*0.035;if(acc>=1){var px=Math.floor(acc);acc-=px;t.scrollLeft+=dir*px;if(t.scrollLeft+t.clientWidth>=t.scrollWidth-1)dir=-1;else if(t.scrollLeft<=0)dir=1;}}requestAnimationFrame(step);}requestAnimationFrame(step);})();</script>
+</section>
+<!--READMORE:END-->
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-container">
@@ -2016,9 +2051,30 @@ src="https://www.facebook.com/tr?id=1835401487552357&ev=PageView&noscript=1"
       if (wantsTrial) setPackMode('trial', true);
     });
 
+    // Google Analytics: record an "add_to_cart" event (GA4) every time a pack is added
+    function trackAddToCart(productName, qty) {
+      try {
+        if (typeof gtag !== 'function') return;
+        const trial = isTrialItem(productName);
+        const price = trial ? TRIAL_PRICE : itemPrice;
+        gtag('event', 'add_to_cart', {
+          currency: 'INR',
+          value: price * qty,
+          items: [{
+            item_id: productName,
+            item_name: productName,
+            item_category: trial ? 'Trial pack' : 'Full-size pack',
+            price: price,
+            quantity: qty
+          }]
+        });
+      } catch (e) { /* tracking must never block the cart */ }
+    }
+
     function updateQty(productName, delta) {
       if (!cart[productName]) cart[productName] = 0;
       cart[productName] += delta;
+      if (delta > 0) trackAddToCart(productName, delta);
 
       if (cart[productName] <= 0) {
         delete cart[productName];

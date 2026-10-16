@@ -33,7 +33,7 @@ const path = require('path');
 /* ---------- settings ---------- */
 const SITE = 'https://myflavoura.in';           // no trailing slash
 const GA_ID = 'G-BYQPF2LLGG';                    // warn if a post forgot it
-const EXTRA_URLS = [];                           // other pages for the sitemap, e.g. '/about'
+const EXTRA_URLS = ['/snacks'];                           // other pages for the sitemap, e.g. '/about'
 const ROOT = __dirname;
 const BLOG_DIR = path.join(ROOT, 'blog');
 const BLOG_PAGE = path.join(ROOT, 'blog.html');

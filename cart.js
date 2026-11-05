@@ -300,35 +300,18 @@ async function submitOrder(e) {
     orderLabel = `ORDER REQUEST (INCLUDES ${extra})`;
   }
 
-  // 2. SPICE BOT DISCORD WEBHOOK
-  const discordWebhookUrl = "https://discord.com/api/webhooks/1555527432176672829/rPV4GwhKY_s59OCpvBYFiTufRTnoDbGi7y8ADU6P6vvytNcY263in1TwRtyCpTaTgFne";
-
-  const discordPayload = {
-    username: "Spice Bot",
-    embeds: [{
-      title: `🛒 NEW FLAVOURA ${orderLabel}`,
-      color: 12068138,
-      fields: [
-        { name: "Customer Name", value: name, inline: true },
-        { name: "Phone Number", value: fullPhone, inline: true },
-        { name: "Delivery Address", value: address },
-        { name: "Items Ordered", value: itemsSummary || "None" },
-        ...(t.free > 0 ? [{ name: "🎁 Free Mystery Trial Pack", value: `${t.free} to add when packing (our choice of flavour, customer does not know)` }] : []),
-        { name: "Total Packs", value: `${totalQty} packs${t.free > 0 ? ` (+${t.free} free)` : ''}`, inline: true },
-        { name: "Subtotal", value: `₹${t.total}`, inline: true }
-      ],
-      timestamp: new Date().toISOString()
-    }]
-  };
-
+  // 2. SEND ORDER TO DISCORD VIA OUR SERVER (/api/order keeps the webhook secret)
   try {
-    await fetch(discordWebhookUrl, {
+    await fetch('/api/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(discordPayload)
+      body: JSON.stringify({
+        name, phone: rawPhone, address, itemsSummary, orderLabel,
+        totalQty, free: t.free, total: t.total
+      })
     });
   } catch (err) {
-    console.error("Spice Bot Discord Webhook Error:", err);
+    console.error("Order notification error:", err);
   }
 
   // 3. WHATSAPP REDIRECT FOR CUSTOMER
